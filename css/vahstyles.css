@@ -1,0 +1,45 @@
+body{
+
+	background: orange;
+}
+
+.nav-item{
+	margin: 0px 5px;
+}
+
+.navbar{
+	width: 100%;
+	border-bottom: 2px solid black;
+	background: #72cbd3;
+}
+
+h1{
+	color:#BD3649;
+	margin-left:auto;
+	margin-right: auto;
+	text-align:center;
+	font-weight: bold !important;
+
+}
+h2{
+	color:orange;
+}
+
+a{
+	color: #f39237 !important;
+	padding: 0 !important;
+		font-family: "Chewy", cursive !important;
+	font-size: 30px !important;
+	-webkit-text-stroke: 1px black;
+}
+a:hover{
+	color: #f7a072 !important;
+}
+
+
+ul#nav li{
+	display:inline-block;
+	padding: 5px 20px 5px 20px;
+
+
+}

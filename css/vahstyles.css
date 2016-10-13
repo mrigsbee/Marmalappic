@@ -1,7 +1,5 @@
 body{
 	font-family: 'Raleway', sans-serif !important;
-
-	background: #F39237 !important;
 }
 
 .date{
@@ -83,14 +81,18 @@ ul#nav li{
 }
 
 .jumbotron{
-	background: #daddd8 !important;
+	background: #EBF5DF !important;
 		border: 2px solid black !important;
+		height: 100%;
 }
 
 .single_winner{
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
+.jar{
+	max-height: 250px;
+}
 .myPic{
 	height: 400px;
 	width: 600px;

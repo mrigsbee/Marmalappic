@@ -27,8 +27,18 @@ h1{
 h2{
 	color:orange;
 }
+h3 {
+	text-align:center;
+	margin-left:auto;
+	margin-right: auto;
+}
+h6 {
+	text-align:center;
+	margin-left:auto;
+	margin-right: auto;
+}
 
-a{
+.nav-link{
 	color: #f39237 !important;
 	padding: 0 !important;
 	font-family: "Chewy", cursive !important;
@@ -105,5 +115,15 @@ ul#nav li{
 
 #individual{
 	margin-left: 200px;
-    margin-right: 200px; 
+    margin-right: 200px;
+}
+
+.inappropriate{
+	font-size: 50%;
+	color: red;
+}
+
+.upload{
+	float:right;
+	margin-right:20%;
 }

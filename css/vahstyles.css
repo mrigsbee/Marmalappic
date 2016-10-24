@@ -97,7 +97,13 @@ ul#nav li{
 
 .jumbotron{
 	background: #EBF5DF !important;
+
+	height: 100%;
+}
+.container{
+	background: #EBF5DF !important;
 	border: 2px solid black !important;
+	min-height: 500px;
 	height: 100%;
 }
 
@@ -171,6 +177,21 @@ ul#nav li{
 	max-height: 200px;
 	height: 40%;
 }
+
+.theme{
+	text-decoration: underline;
+}
+
+.themeButtons{
+	width: 60%;
+	margin: 0 auto;
+	padding-bottom: 20px
+}
+
+ .picUpload{
+ 	margin: 0 auto;
+ 	min-width: 200px;
+ }
 
 .past p{
 	margin-bottom: 1% !important;	

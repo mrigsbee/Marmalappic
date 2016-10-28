@@ -77,9 +77,9 @@
                       }
 
                       $pic  = $entry->get('file');
-                      $username  = $entry->get('username');
+                      $un  = $entry->get('username');
 
-                      if($username == "HokieBird12"){ //DUMMY VALUE BEING USED -- UPDATE WHEN AUTHENTIFICATION HAS BEEN UPDATED ************************************
+                      if($username == $un){
                           continue; //don't show pictures uploaded by the user currently signed in
                       }
                       $picid = $entry->get('id');
@@ -89,7 +89,7 @@
                             echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="pic">';
                             echo "</div>";
                             echo '<div class="single_winner">';
-                            echo "<h6>Uploaded by: $username</h6>";
+                            echo "<h6>Uploaded by: $un</h6>";
 
                             //'Voted' button will appear if user has voted for a particular image; 'vote' button if not
                             if (in_array($entry->get('id'), $votes)){

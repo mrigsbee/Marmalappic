@@ -1,0 +1,33 @@
+Options -Indexes
+
+RewriteEngine on
+
+# ErrorDocument 404 /app/controller/error.php
+
+# Site
+RewriteRule ^$ app/controller/siteController.php?action=home [QSA,L]
+RewriteRule ^vote/?$ app/controller/siteController.php?action=vote [QSA,L]
+RewriteRule ^about/?$ app/controller/siteController.php?action=about [QSA,L]
+RewriteRule ^upload/?$ app/controller/siteController.php?action=upload [QSA,L]
+RewriteRule ^pastwinners/?$ app/controller/siteController.php?action=pastwinners [QSA,L]
+RewriteRule ^standings/?$ app/controller/siteController.php?action=standings [QSA,L]
+RewriteRule ^account/?$ app/controller/siteController.php?action=account [QSA,L]
+RewriteRule ^signup/?$ app/controller/siteController.php?action=signup [QSA,L]
+RewriteRule ^login/?$ app/controller/siteController.php?action=login [QSA,L]
+RewriteRule ^postlogin/?$ app/controller/siteController.php?action=postlogin [QSA,L]
+
+# Users
+RewriteRule ^profile/?$ app/controller/profileController.php?action=viewProfile&user_id=0 [QSA,L]
+ReWriteRule ^profile/graphic/?$ app/controller/profileController.php?action=graphic&user_id=0 [QSA,L]
+RewriteRule ^profile/(\d+)/?$ app/controller/profileController.php?action=viewProfile&user_id=$1 [QSA,L]
+RewriteRule ^profile/(\d+)/follow/?$ app/controller/profileController.php?action=follow [QSA,L]
+RewriteRule ^profile/(\d+)/unfollow/?$ app/controller/profileController.php?action=unfollow [QSA,L]
+RewriteRule ^profile/follow/?$ app/controller/profileController.php?action=follow [QSA,L]
+RewriteRule ^profile/unfollow/?$ app/controller/profileController.php?action=unfollow [QSA,L]
+RewriteRule ^profile/(\d+)/graphic/?$ app/controller/profileController.php?action=graphic&user_id=$1 [QSA,L]
+RewriteRule ^profile/json/(\d+)/?$ app/controller/siteController.php?action=profileJson&user_id=$1 [QSA,L]
+
+RewriteRule ^profile/graphic/getclothing/?$ app/controller/siteController.php?action=getclothing [QSA,L]
+RewriteRule ^profile/graphic/update/?$ app/controller/siteController.php?action=updateClothesSubmit [QSA,L]
+RewriteRule ^profile/graphic/delete/?$ app/controller/siteController.php?action=deleteClothesSubmit [QSA,L]
+RewriteRule ^profile/graphic/submit/?$ app/controller/siteController.php?action=addclothesSubmit [QSA,L]

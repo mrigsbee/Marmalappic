@@ -122,20 +122,6 @@
       </div>
     </div>
 
-    <script type="text/javascript">
-        function voted(id, picid)
-        {
-            $('#voted' + id).hide();
-            $('#vote' + id).show();
-        }
-
-        function vote(id, picid)
-        {
-            $('#vote' + id).hide();
-            $('#voted' + id).show();
-        }
-    </script>
-
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://use.fontawesome.com/625f8d2098.js"></script>
     <script src="<?= BASE_URL ?>/public/js/bootstrap.min.js"></script>

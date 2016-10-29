@@ -53,6 +53,9 @@ class SiteController {
 			case 'logout':
 				$this->logout();
 				break;
+			case 'uploadsave':
+				$this->uploadsave();
+				break;
 		}
 	}
 
@@ -204,8 +207,103 @@ class SiteController {
 		// erase the session
 		unset($_SESSION['username']);
 		session_destroy();
-		
+
 		// redirect to home page
 		header('Location: '.BASE_URL);
 	}
+
+	public function uploadsave(){
+		if(isset($_FILES['image'])){
+		      $errors= array();
+		      $file_name = $_FILES['image']['name'];
+		      $file_size = $_FILES['image']['size'];
+		      $file_tmp  = $_FILES['image']['tmp_name'];
+		      $file_type = $_FILES['image']['type'];
+			  $file_error= $_FILES['image']['error'];
+
+			  $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
+
+			  $allowed_extensions = array("jpeg","jpg","png");
+
+			  //there was a problem uploading the file
+			  if ($file_error !== UPLOAD_ERR_OK) {
+				     $error = self::getPictureUploadError($file_error);
+					 $_SESSION['error'] = "<b>Uh oh!</b> There was an error uploading your image: ".$error;
+ 					 header('Location: '.BASE_URL.'/upload');
+			  }
+
+			  //make sure user uploaded the correct file extension
+		      else if(in_array($file_ext, $allowed_extensions) === false){
+				 $_SESSION['error'] = "<b>Uh oh!</b> <i>.".$file_ext."</i> files are not allowed, please choose a JPEG or PNG file.";
+				 header('Location: '.BASE_URL.'/upload');
+		      }
+
+			  //check that the image isn't too large
+		      else if($file_size > 2097152){
+				 $_SESSION['error'] = "<b>Uh oh!</b> File size must be less than 2 MB";
+				 header('Location: '.BASE_URL.'/upload');
+		      }
+
+			  //attempt to store the image in the file system
+		      else if (empty($errors) == true){
+				 $marmalappic = realpath(dirname(dirname(getcwd())));
+
+				 //Path on local system (CHANGE IF HOST CHANGES)
+				 $path = $marmalappic."\\public\\media\\user_uploads\\".$file_name;
+		         move_uploaded_file($file_tmp,$path);
+		          $_SESSION['success'] = "<b>Success!</b> Your picture has been uploaded.";
+
+				  //ADD TO DATABASE
+				  $picture = new Picture();
+				  $picture->set('username', $_SESSION['username']);
+				  $picture->set('numvotes', 0);
+				  $picture->set('numflags', 0);
+				  $picture->set('date', date("Y-m-d"));
+				  $picture->set('isWinner', 0);
+				  $picture->set('file', "/public/media/user_uploads/".$file_name);
+				  $picture->save();
+
+				  header('Location: '.BASE_URL.'/upload');
+		      }
+
+			  else{
+				 $_SESSION['error'] = "<b>FILE SYSTEM ERROR</b> Could not save the image.";
+		         print_r($errors);
+				 header('Location: '.BASE_URL.'/upload');
+		      }
+		   }
+	}
+
+	private function getPictureUploadError($code)
+    {
+        switch ($code) {
+            case UPLOAD_ERR_INI_SIZE:
+                //$message = "The uploaded file exceeds the upload_max_filesize directive in php.ini";
+				$message = "The uploaded file exceeds the maximum file size.";
+                break;
+            case UPLOAD_ERR_FORM_SIZE:
+                // $message = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form";
+				$message = "The uploaded file exceeds the maximum file size.";
+                break;
+            case UPLOAD_ERR_PARTIAL:
+                $message = "The uploaded file was only partially uploaded.";
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $message = "No file was uploaded.";
+                break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                $message = "Missing a temporary folder.";
+                break;
+            case UPLOAD_ERR_CANT_WRITE:
+                $message = "Failed to write file to disk.";
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                $message = "File upload stopped by extension.";
+                break;
+            default:
+                $message = "Unknown upload error.";
+                break;
+        }
+        return $message;
+    }
 }

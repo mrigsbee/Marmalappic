@@ -53,6 +53,34 @@
   <div class="container">
     <div class="jumbotron">
       <br>
+
+      <span id="error">
+         <?php
+             if(isset($_SESSION['error']))
+             {
+                 if($_SESSION['error'] != '')
+                 {
+                     echo '<div class="alert alert-danger" role="alert">'.$_SESSION["error"].'</div>';
+                     $_SESSION['error'] = '';
+                 }
+             }
+         ?>
+     </span>
+     <span id="success">
+        <?php
+            if(isset($_SESSION['success']))
+            {
+                if($_SESSION['success'] != '')
+                {
+                    echo '<div class="alert alert-success" role="alert">'.$_SESSION["success"].'</div>';
+                    $_SESSION['success'] = '';
+                }
+            }
+        ?>
+    </span>
+
+
+
       <h1>Upload Your Pic!</h1>
       <hr>
       <br>
@@ -61,14 +89,25 @@
           <img src="<?= BASE_URL ?>/public/media/garden.jpg" alt="icon" class="myPic">
         </div>
         <br>
-        <div id="uploadBox">
-          <div class="fileUpload btn btn-primary">
-            <span>Upload</span>
-            <br>
-            <input id="uploadBtn" type="file" class="upload" />
-          </div>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+          <!-- <div id="uploadBox"> -->
+            <div id="picUpload" style="text-align:center; vertical-align:middle">
+              <span><b>Upload</b></span>
+              <br>
+              <form action="<?= BASE_URL ?>/upload/save" method="POST" enctype="multipart/form-data">
+                  <input id="uploadBtn" type="file" class="upload" name="image" />
+                  <input type="submit"/>
+              </form>
+            </div>
+          <!-- </div> -->
       </div>
+      <div class="col-md-3"></div>
+  </div>
+
     </div>
   </div>
 

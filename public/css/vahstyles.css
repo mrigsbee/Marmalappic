@@ -188,13 +188,13 @@ ul#nav li{
 	padding-bottom: 20px
 }
 
- .picUpload{
- 	margin: 0 auto;
- 	min-width: 200px;
+ div#picUpload{
+	 background-color: #72cbd3;
+	 border-radius: 15px;
  }
 
 .past p{
-	margin-bottom: 1% !important;	
+	margin-bottom: 1% !important;
 	text-align: left !important;
 	margin-left: 10px;
 

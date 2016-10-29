@@ -62,13 +62,14 @@
           <div class="col-md-4"></div>
           <div class="col-md-4"><h3>Today's Entries</h3></div>
           <div class="col-md-4">
-            <button type="button" class="btn btn-success upload">
-              <i class="fa fa-camera" aria-hidden="true"></i> Upload
-            </button>
+              <form action="<?= BASE_URL ?>/upload">
+                  <button type="submit" class="btn btn-success picUpload">
+                    <i class="fa fa-camera" aria-hidden="true"></i> Upload
+                  </button>
+              </form>
           </div>
         </div>
         <br>
-        <!-- <input id="uname" type="text" placeholder=" Username" name="uname" /> -->
 
         <div id = "list">
           <table id="winners">

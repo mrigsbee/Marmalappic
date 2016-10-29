@@ -52,14 +52,27 @@
   <!-- End of navbar code-->
   <div class="container">
     <div class="jumbotron">
+        <br>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+              <?php
+                  $team = $user_row->get('teamname');
+
+                  echo "<h1>$username</h1>";
+                  echo "<h6>Team $team</h6>"
+              ?>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-2">
+              <form action="<?= BASE_URL ?>/logout">
+                  <button type="submit" class="btn btn-success">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i> logout
+                  </button>
+              </form>
+          </div>
+        </div>
       <br>
-
-      <?php
-          $team = $user_row->get('teamname');
-
-          echo "<h1>$username</h1>";
-          echo "<h6>Team $team</h6>"
-      ?>
       <hr>
       <br>
       <div class="account">

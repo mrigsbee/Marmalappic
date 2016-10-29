@@ -70,9 +70,11 @@
 
       <h1>Today's theme</h1>
       <div class="buttons col-md-3">
-        <button type="button" class="btn btn-success picUpload">
-          <i class="fa fa-upload" aria-hidden="true"></i> Upload
-        </button>
+          <form action="<?= BASE_URL ?>/upload">
+              <button type="submit" class="btn btn-success picUpload">
+                <i class="fa fa-upload" aria-hidden="true"></i> Upload
+              </button>
+          </form>
       </div>
       <?php
         echo "<h4 class='theme col-md-6'>$theme</h4>";

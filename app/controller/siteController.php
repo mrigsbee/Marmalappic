@@ -50,6 +50,9 @@ class SiteController {
 			case 'votesave':
 				$this->votesave();
 				break;
+			case 'logout':
+				$this->logout();
+				break;
 		}
 	}
 
@@ -195,5 +198,14 @@ class SiteController {
 		$user->save();
 
 		header('Location: '.BASE_URL.'/vote');
+	}
+
+	public function logout(){
+		// erase the session
+		unset($_SESSION['username']);
+		session_destroy();
+		
+		// redirect to home page
+		header('Location: '.BASE_URL);
 	}
 }

@@ -28,7 +28,6 @@ class UserVote extends DbObject {
         $db = Db::instance();
 
         $db_properties = array(
-            'id' => $this->picid,
             'username' => $this->username,
             'picid' => $this->picid
         );
@@ -61,5 +60,36 @@ class UserVote extends DbObject {
         }
     }
 
+    public static function getRow($user, $picid) {
+
+        $query = sprintf(" SELECT * FROM %s WHERE username='%s' AND picid='%s' ",
+            self::DB_TABLE,
+            $user,
+            $picid
+        );
+
+        $db = Db::instance();
+        $result = $db->lookup($query);
+        if(!mysql_num_rows($result))
+            return null;
+        else {
+            $row = mysql_fetch_assoc($result);
+            $obj = self::loadById($row['id']);
+            return ($obj);
+        }
+    }
+
+    public function delete()
+    {
+         $db = Db::instance();
+            $query = sprintf(" DELETE FROM %s  WHERE username = '%s' AND picid = '%s' ",
+            self::DB_TABLE,
+            $this->username,
+            $this->picid
+            );
+            $ex = mysql_query($query);
+            if(!$ex)
+            die ('Query failed:' . mysql_error());
+    }
 }
 ?>

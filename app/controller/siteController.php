@@ -44,6 +44,12 @@ class SiteController {
 			case 'postlogin':
 				$this->postlogin();
 				break;
+			case 'votedelete':
+				$this->votedelete();
+				break;
+			case 'votesave':
+				$this->votesave();
+				break;
 		}
 	}
 
@@ -165,5 +171,29 @@ class SiteController {
 			$user = User::loadByUsername($_SESSION['username']);
 			$userName = $user->get('username');
 		}
+	}
+
+	public function votedelete(){
+		//variables from page
+		$username = $_SESSION['username'];
+		$picid = $_POST['picid'];
+
+		$row = UserVote::getRow($username, $picid);
+		$row->delete();
+
+		header('Location: '.BASE_URL.'/vote');
+	}
+
+	public function votesave(){
+		//variables from page
+		$username = $_SESSION['username'];
+		$picid = $_POST['picid'];
+
+		$user = new UserVote();
+		$user->set('picid', $picid);
+		$user->set('username', $username);
+		$user->save();
+
+		header('Location: '.BASE_URL.'/vote');
 	}
 }

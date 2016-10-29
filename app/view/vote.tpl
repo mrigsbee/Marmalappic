@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/public/css/vahstyles.css">
-  <title>Past Winners</title>
+  <title>Vote</title>
   <link href="<?= BASE_URL ?>/public/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Chewy|Raleway" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+  <script type="text/javascript" src="<?= BASE_URL ?>/public/js/marmalappic.js"></script>
 
   <!-- Custom styles for this template -->
   <!--   <link href="css/navbar-top-fixed.css" rel="stylesheet"> -->
@@ -65,6 +68,8 @@
           </div>
         </div>
         <br>
+        <!-- <input id="uname" type="text" placeholder=" Username" name="uname" /> -->
+
         <div id = "list">
           <table id="winners">
               <tr>
@@ -86,7 +91,7 @@
 
                           echo '<td class="col-md-4 project">';
                             echo '<div class="mainPic">';
-                            echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="pic">';
+                            echo '<img id='.$picid.' src="'.BASE_URL.$pic.'" alt="icon" class="pic">';
                             echo "</div>";
                             echo '<div class="single_winner">';
                             echo "<h6>Uploaded by: $un</h6>";
@@ -94,12 +99,12 @@
                             //'Voted' button will appear if user has voted for a particular image; 'vote' button if not
                             if (in_array($entry->get('id'), $votes)){
                                 //show 'voted' button
-                                echo "<button id='voted" .$counter. "' type='button' onclick='voted(" .$counter. ", ".$picid.")' class='btn btn-success btn-lg'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> Voted</button>";
-                                echo "<button id='vote" .$counter. "' style='display:none' type='button' onclick='vote(" .$counter. ", ".$picid.")' class='btn btn-info btn-lg'>Vote</button>";
+                                echo "<button id='voted_".$picid."' type='button' class='voted btn btn-success btn-lg'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> Voted</button>";
+                                echo "<button id='vote_".$picid."' style='display:none' type='button' class='vote btn btn-info btn-lg'>Vote</button>";
                             } else {
                                 //show 'vote' button
-                                echo "<button id='vote" .$counter. "' type='button' onclick='vote(" .$counter. ", ".$picid.")' class='btn btn-info btn-lg'>Vote</button>";
-                                echo "<button id='voted" .$counter. "' style='display:none' type='button' onclick='voted(" .$counter. ", ".$picid.")' class='btn btn-success btn-lg'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> Voted</button>";
+                                echo "<button id='voted_".$picid."' style='display:none' type='button' class='voted btn btn-success btn-lg'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> Voted</button>";
+                                echo "<button id='vote_".$picid."' type='button' class='vote btn btn-info btn-lg'>Vote</button>";
                             }
 
                             echo "<br>";
@@ -116,8 +121,6 @@
       </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
     <script type="text/javascript">
         function voted(id, picid)
         {
@@ -131,8 +134,6 @@
             $('#voted' + id).show();
         }
     </script>
-
-
 
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://use.fontawesome.com/625f8d2098.js"></script>

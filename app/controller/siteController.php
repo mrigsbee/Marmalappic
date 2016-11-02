@@ -66,9 +66,10 @@ class SiteController {
 
 		//Yesterday's winner & picture
 		$yesterdays_winner = Picture::getYesterdayWinner();
+		if(!is_null($yesterdays_winner)){
 		$yesterday  = $yesterdays_winner->get('username');
 		$yesterday_pic = $yesterdays_winner->get('file');
-
+		}
 		//Yesterday's theme
 		$yesterdays_date = date("Y-m-d", time() - 60*60*24);
 		$yesterdays_theme = DateTheme::getTheme($yesterdays_date)->get('theme');

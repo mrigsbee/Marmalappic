@@ -108,6 +108,19 @@ class SiteController {
 
 	public function upload(){
 		self::loggedInCheck();
+        $user = $_SESSION['username'];
+        $today = date("Y-m-d", time());
+        $pic = "/public/media/garden.jpg";
+        $uploaded = false;
+
+        //check if user already uploaded photo, if so, display it
+        $result = Picture::getPicByUserAndDate($user, $today);
+        if($result != null){
+            $pic = $result->get('file');
+            $uploaded = true;
+            $theme = DateTheme::getTheme($today)->get('theme');
+        }
+
 		include_once SYSTEM_PATH.'/view/upload.tpl';
 	}
 
@@ -265,10 +278,9 @@ class SiteController {
 
 				  header('Location: '.BASE_URL.'/upload');
 		      }
-
+              //There's an error with the file system.
 			  else{
 				 $_SESSION['error'] = "<b>FILE SYSTEM ERROR</b> Could not save the image.";
-		         print_r($errors);
 				 header('Location: '.BASE_URL.'/upload');
 		      }
 		   }

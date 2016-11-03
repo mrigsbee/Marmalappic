@@ -138,5 +138,24 @@ class picture extends DbObject {
             return ($objects);
         }
     }
+
+    //get pic from user on specific day
+    public static function getPicByUserAndDate($user, $date) {
+        $query = sprintf(" SELECT * FROM %s WHERE username = '%s' AND date = '%s'",
+            self::DB_TABLE,
+            $user,
+            $date
+        );
+
+        $db = Db::instance();
+        $result = $db->lookup($query);
+        if(!mysql_num_rows($result))
+            return null;
+        else {
+            $row = mysql_fetch_assoc($result);
+            $obj = self::loadById($row['id']);
+            return ($obj);
+        }
+    }
 }
 ?>

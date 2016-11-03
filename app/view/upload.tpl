@@ -80,21 +80,34 @@
     </span>
 
 
-
       <h1>Upload Your Pic!</h1>
       <hr>
       <br>
       <div id ="individual">
         <div class="myPic">
-          <img src="<?= BASE_URL ?>/public/media/garden.jpg" alt="icon" class="myPic">
+          <?php
+            if($uploaded){
+                echo "<h3>Your submission for: ".$theme."</h3>";
+            }
+            echo "<img src='".BASE_URL.$pic."' alt='icon' class='myPic'>";
+          ?>
         </div>
         <br>
     </div>
-    <div class="row">
+    
+    <?php
+      // hides the upload form if the user has already uploaded a picture
+      if($uploaded){
+          ?><style type="text/css">#uploadDiv{
+              display:none;
+           }</style><?php
+      }
+    ?>
+    <div id="uploadDiv" class="row">
       <div class="col-md-3"></div>
         <div class="col-md-6">
 
-          <!-- <div id="uploadBox"> -->
+
             <div id="picUpload" style="text-align:center; vertical-align:middle">
               <span><b>Upload</b></span>
               <br>
@@ -103,7 +116,7 @@
                   <input type="submit"/>
               </form>
             </div>
-          <!-- </div> -->
+
       </div>
       <div class="col-md-3"></div>
   </div>

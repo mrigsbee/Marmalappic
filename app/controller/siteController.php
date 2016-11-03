@@ -32,6 +32,9 @@ class SiteController {
 			case 'standings':
 				$this->standings();
 				break;
+				case 'signupRegister':
+				$this->signupRegister();
+				break;
 			case 'account':
 				$this->account();
 				break;
@@ -62,24 +65,38 @@ class SiteController {
     public function home() {
 		self::loggedInCheck();
 
-    	$pageTitle = 'Spot of the Day';
+		$pageTitle = 'Spot of the Day';
 
 		//Yesterday's winner & picture
 		$yesterdays_winner = Picture::getYesterdayWinner();
 		if(!is_null($yesterdays_winner)){
-		$yesterday  = $yesterdays_winner->get('username');
-		$yesterday_pic = $yesterdays_winner->get('file');
+			$yesterday  = $yesterdays_winner->get('username');
+			$yesterday_pic = $yesterdays_winner->get('file');
+		}
+		else{
+			$yesterday = 'No winner';
+			$yesterday_pic = 'No pic';
 		}
 		//Yesterday's theme
 		$yesterdays_date = date("Y-m-d", time() - 60*60*24);
+		if(!is_null(DateTheme::getTheme($yesterdays_date)->get('theme'))){
 		$yesterdays_theme = DateTheme::getTheme($yesterdays_date)->get('theme');
+	}
+	else{
+		$yesterdays_theme = 'No Theme';
+	}
 
 		//Today's theme
 		$todays_date = date("Y-m-d");
+		if(!is_null(DateTheme::getTheme($todays_date)->get('theme'))){
 		$theme = DateTheme::getTheme($todays_date)->get('theme');
+	}
+	else{
+		$theme = 'No Theme';
+	}
 
 		include_once SYSTEM_PATH.'/view/spotoftheday.tpl';
-    }
+	}
 
 	public function vote(){
 		self::loggedInCheck();
@@ -319,4 +336,48 @@ class SiteController {
         }
         return $message;
     }
+
+
+	public function signupRegister() {
+		// get post data
+		$username  = $_POST['username'];
+		$teamname = $_POST['teamname'];
+		$passwd = $_POST['passwd'];
+		$email  = $_POST['email'];
+
+		// do some simple form validation
+
+		// are all the required fields filled?
+		if ($username == '' || $teamname == '' || $passwd == '' || $email == '') {
+			// missing form data; send us back
+			$_SESSION['registerError'] = 'Please complete all registration fields.';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+
+		// is username in use?
+		$user = User::loadByUsername($username);
+		if(!is_null($user)) {
+			// username already in use; send us back
+			$_SESSION['registerError'] = 'Sorry, that username is already in use. Please pick a unique one.';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+
+		// okay, let's register
+		$user = new User();
+		$user->set('username', $username);
+		$user->set('teamname', $teamname);
+		$user->set('password', $passwd);
+		$user->set('email', $email);
+		$user->save(); // save to db
+
+		// log in this freshly created user
+		// $_SESSION['username'] = $uname;
+		$_SESSION['error'] = "You successfully registered as ".$username.".";
+
+		// redirect to home page
+		header('Location: '.BASE_URL);
+		exit();
+	}
 }

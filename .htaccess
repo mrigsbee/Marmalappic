@@ -13,6 +13,7 @@ RewriteRule ^pastwinners/?$ app/controller/siteController.php?action=pastwinners
 RewriteRule ^standings/?$ app/controller/siteController.php?action=standings [QSA,L]
 RewriteRule ^account/?$ app/controller/siteController.php?action=account [QSA,L]
 RewriteRule ^signup/?$ app/controller/siteController.php?action=signup [QSA,L]
+RewriteRule ^signup/register/?$ app/controller/siteController.php?action=signupRegister [QSA,L]
 RewriteRule ^login/?$ app/controller/siteController.php?action=login [QSA,L]
 RewriteRule ^postlogin/?$ app/controller/siteController.php?action=postlogin [QSA,L]
 RewriteRule ^vote/delete/?$ app/controller/siteController.php?action=votedelete [QSA,L]

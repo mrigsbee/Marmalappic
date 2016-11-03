@@ -76,11 +76,12 @@
               <tr>
               <?php
                     $counter = 0;
+                    if($todays_entries != null){
                   foreach($todays_entries as $entry){
                       if($counter % 3 == 0){
                           if($counter != 0) echo "</tr>";
                           echo "<tr>";
-                      }
+                      } }
 
                       $pic  = $entry->get('file');
                       $un  = $entry->get('username');

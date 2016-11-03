@@ -90,11 +90,13 @@
             <h5>Your Uploads</h5>
 
                 <?php
+                if ($pix != null){
                     foreach($pix as $entry){
                         $pic = $entry->get('file');
                         $date = $entry->get('date');
-                		$theme = DateTheme::getTheme($date)->get('theme');
+                    $theme = DateTheme::getTheme($date)->get('theme');
                         $score = $entry->get('numvotes');
+                      }
 
 
                             echo '<div class="past">';

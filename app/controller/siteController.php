@@ -79,7 +79,7 @@ class SiteController {
 		}
 		//Yesterday's theme
 		$yesterdays_date = date("Y-m-d", time() - 60*60*24);
-		if(!is_null(DateTheme::getTheme($yesterdays_date)->get('theme'))){
+		if(!is_null(DateTheme::getTheme($yesterdays_date))){
 		$yesterdays_theme = DateTheme::getTheme($yesterdays_date)->get('theme');
 	}
 	else{
@@ -88,7 +88,7 @@ class SiteController {
 
 		//Today's theme
 		$todays_date = date("Y-m-d");
-		if(!is_null(DateTheme::getTheme($todays_date)->get('theme'))){
+		if(!is_null(DateTheme::getTheme($todays_date))){
 		$theme = DateTheme::getTheme($todays_date)->get('theme');
 	}
 	else{
@@ -112,8 +112,10 @@ class SiteController {
 		$voted = UserVote::getAllByUser($username);
 
 		$votes = array(); //array of picids that the user voted for
+		if($votes != null){
 		foreach($voted as $vote){
 			array_push($votes, $vote->get('picid'));
+		}
 		}
 
 		include_once SYSTEM_PATH.'/view/vote.tpl';

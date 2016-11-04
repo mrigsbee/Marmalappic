@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="<?= BASE_URL ?>/public/css/vahstyles.css">
-  <title>Upload</title>
+  <title>Spot of the Day</title>
   <link href="<?= BASE_URL ?>/public/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Chewy|Raleway" rel="stylesheet">
 

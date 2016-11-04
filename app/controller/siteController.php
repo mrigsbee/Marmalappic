@@ -100,6 +100,15 @@ class SiteController {
 
 		$pageTitle = 'Vote';
 
+		//check if user uploaded a photo todays_entries
+		$user = $_SESSION['username'];
+		$today = date("Y-m-d", time());
+		$picture_row = Picture::getPicByUserAndDate($user, $today);
+		$hide = false;
+		if($picture_row == null){
+			$hide = true;
+		}
+
 		$todays_entries = Picture::getAllToday();
 		shuffle($todays_entries);
 

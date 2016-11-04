@@ -71,6 +71,13 @@
         </div>
         <br>
 
+        <?php
+            if($hide){
+                echo "<br><br><h3>You cannot vote until you upload a photo today!</h3>";
+            }
+            else {
+        ?>
+
         <div id = "list">
           <table id="winners">
               <tr>
@@ -117,6 +124,7 @@
                       $counter++;
                     }
                   }
+             } //close else statement
               ?>
             </tr>
           </table>

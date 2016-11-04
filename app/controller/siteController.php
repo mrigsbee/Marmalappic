@@ -32,9 +32,9 @@ class SiteController {
 			case 'standings':
 				$this->standings();
 				break;
-				case 'signupRegister':
+			case 'signupRegister':
 				$this->signupRegister();
-				break;
+			break;
 			case 'account':
 				$this->account();
 				break;
@@ -380,11 +380,9 @@ class SiteController {
 		$user->set('email', $email);
 		$user->save(); // save to db
 
-		// log in this freshly created user
-		// $_SESSION['username'] = $uname;
-		$_SESSION['error'] = "You successfully registered as ".$username.".";
-
-		// redirect to home page
+		// log in this freshly created user and redirect to home page
+		$_SESSION['username'] = $username;
+		$_SESSION['success'] = "You successfully registered as ".$username.".";
 		header('Location: '.BASE_URL);
 		exit();
 	}

@@ -74,16 +74,12 @@ class SiteController {
 			$yesterday_pic = $yesterdays_winner->get('file');
 		}
 		else{
-			$yesterday = 'No winner';
-			$yesterday_pic = 'No pic';
+			$yesterday = null;
 		}
 		//Yesterday's theme
 		$yesterdays_date = date("Y-m-d", time() - 60*60*24);
 		if(!is_null(DateTheme::getTheme($yesterdays_date))){
 		$yesterdays_theme = DateTheme::getTheme($yesterdays_date)->get('theme');
-	}
-	else{
-		$yesterdays_theme = 'No Theme';
 	}
 
 		//Today's theme
@@ -92,7 +88,7 @@ class SiteController {
 		$theme = DateTheme::getTheme($todays_date)->get('theme');
 	}
 	else{
-		$theme = 'No Theme';
+		$theme = 'No theme today!';
 	}
 
 		include_once SYSTEM_PATH.'/view/spotoftheday.tpl';
@@ -138,7 +134,8 @@ class SiteController {
         if($result != null){
             $pic = $result->get('file');
             $uploaded = true;
-            $theme = DateTheme::getTheme($today)->get('theme');
+            $theme_row = DateTheme::getTheme($today);
+			if($theme_row != null) $theme->get('theme');
         }
 
 		include_once SYSTEM_PATH.'/view/upload.tpl';

@@ -81,7 +81,7 @@
                       if($counter % 3 == 0){
                           if($counter != 0) echo "</tr>";
                           echo "<tr>";
-                      } }
+                      }
 
                       $pic  = $entry->get('file');
                       $un  = $entry->get('username');
@@ -115,6 +115,7 @@
                           echo "</td>";
 
                       $counter++;
+                    }
                   }
               ?>
             </tr>

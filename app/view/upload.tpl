@@ -86,7 +86,7 @@
       <div id ="individual">
         <div class="myPic">
           <?php
-            if($uploaded){
+            if($uploaded && $theme_row != null){
                 echo "<h3>Your submission for: ".$theme."</h3>";
             }
             echo "<img src='".BASE_URL.$pic."' alt='icon' class='myPic'>";
@@ -94,7 +94,7 @@
         </div>
         <br>
     </div>
-    
+
     <?php
       // hides the upload form if the user has already uploaded a picture
       if($uploaded){

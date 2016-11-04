@@ -89,10 +89,11 @@
       <hr>
       <br>
 
-      <h3>Yesterday's a-PEEL-ing Pic</h3>
       <?php
-        echo "<h6>Uploaded by: $yesterday</h6>";
+        if($yesterday != null){
+            echo "<h6>Uploaded by: $yesterday</h6>";
       ?>
+      <h3>Yesterday's a-PEEL-ing Pic</h3>
       <div id ="individual">
         <div class="myPic">
                 <?php
@@ -102,8 +103,12 @@
         <br>
       </div>
       <?php
-        echo "<h6>Theme: $yesterdays_theme</h6>";
-      ?>
+            echo "<h6>Theme: $yesterdays_theme</h6>";
+        }
+        else {
+            echo "<h3>Looks like the competition hasn't started yet! Come back soon!</h3>";
+        }
+        ?>
     </div>
   </div>
 

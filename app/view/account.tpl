@@ -94,19 +94,19 @@
                     foreach($pix as $entry){
                         $pic = $entry->get('file');
                         $date = $entry->get('date');
-                    $theme = DateTheme::getTheme($date)->get('theme');
+                        $theme_row = DateTheme::getTheme($date);
+                        if($theme_row != null) $theme = $theme_row->get('theme');
                         $score = $entry->get('numvotes');
-                      }
 
-
-                            echo '<div class="past">';
-                                echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="tinyPic">';
-                                echo '<div class="pastPicInfo">';
-                                    echo "<p class='accTheme'>Theme: $theme</p>";
-                                    echo "<p class='accPoints'>Points: $score</p>";
-                                echo '</div>';
+                        echo '<div class="past">';
+                            echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="tinyPic">';
+                            echo '<div class="pastPicInfo">';
+                                if($theme_row != null) echo "<p class='accTheme'>Theme: $theme</p>";
+                                echo "<p class='accPoints'>Points: $score</p>";
                             echo '</div>';
-                        }
+                        echo '</div>';
+                    }
+                }
                 ?>
         </div>
       </div>

@@ -84,7 +84,7 @@
           <i class="fa fa-camera" aria-hidden="true"></i> Take A Picture
         </button>
       </div>
-	  <br>
+    <br>
       <br>
       <hr>
       <br>
@@ -95,8 +95,14 @@
       ?>
       <div id ="individual">
         <div class="myPic">
+
                 <?php
+                if($yesterday_pic != null){
                     echo '<img src="'.BASE_URL.$yesterday_pic.'" alt="icon" class="myPic">';
+                  }
+                  else{
+                    echo '<p>Sadly no pic to show</p>';
+                  }
                 ?>
         </div>
         <br>

@@ -75,7 +75,7 @@ class SiteController {
 		}
 		else{
 			$yesterday = 'No winner';
-			$yesterday_pic = 'No pic';
+			$yesterday_pic = null;
 		}
 		//Yesterday's theme
 		$yesterdays_date = date("Y-m-d", time() - 60*60*24);

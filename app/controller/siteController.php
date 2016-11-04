@@ -79,17 +79,18 @@ class SiteController {
 		//Yesterday's theme
 		$yesterdays_date = date("Y-m-d", time() - 60*60*24);
 		if(!is_null(DateTheme::getTheme($yesterdays_date))){
-		$yesterdays_theme = DateTheme::getTheme($yesterdays_date)->get('theme');
-	}
+			$yesterdays_theme = DateTheme::getTheme($yesterdays_date)->get('theme');
+		}
 
 		//Today's theme
 		$todays_date = date("Y-m-d");
-		if(!is_null(DateTheme::getTheme($todays_date))){
-		$theme = DateTheme::getTheme($todays_date)->get('theme');
-	}
-	else{
-		$theme = 'No theme today!';
-	}
+		$theme_row = DateTheme::getTheme($todays_date);
+		if($theme_row != null){
+			$theme = $theme_row->get('theme');
+		}
+		else{
+			$theme = null;
+		}
 
 		include_once SYSTEM_PATH.'/view/spotoftheday.tpl';
 	}

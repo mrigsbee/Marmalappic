@@ -76,18 +76,29 @@
               </button>
           </form>
       </div>
-      <?php
-        echo "<h4 class='theme col-md-6'>$theme</h4>";
-      ?>
+      <h4 class='theme col-md-6'>
+          <?php
+            if($theme != null){
+                echo $theme;
+            } ?>
+      </h4>
       <div class="buttons col-md-3">
         <button type="button" class="btn btn-success picUpload">
           <i class="fa fa-camera" aria-hidden="true"></i> Take A Picture
         </button>
       </div>
-    <br>
+	  <br>
       <br>
       <hr>
       <br>
+      <?php
+        if($theme == null){
+            echo "<h3>Looks like the competition hasn't started yet! Come back soon!</h3>";
+        }
+        if($theme != null && $yesterday == null){
+            echo "<h3>Woo! The competition has begun! Come back to this page tomorrow to see who wins today's theme!</h3>";
+        }
+      ?>
 
       <?php
         if($yesterday != null){
@@ -96,23 +107,14 @@
       <h3>Yesterday's a-PEEL-ing Pic</h3>
       <div id ="individual">
         <div class="myPic">
-
                 <?php
-                if($yesterday_pic != null){
                     echo '<img src="'.BASE_URL.$yesterday_pic.'" alt="icon" class="myPic">';
-                  }
-                  else{
-                    echo '<p>Sadly no pic to show</p>';
-                  }
                 ?>
         </div>
         <br>
       </div>
       <?php
             echo "<h6>Theme: $yesterdays_theme</h6>";
-        }
-        else {
-            echo "<h3>Looks like the competition hasn't started yet! Come back soon!</h3>";
         }
         ?>
     </div>

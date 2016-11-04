@@ -119,16 +119,15 @@ class SiteController {
 
 		$votes = array(); //array of picids that the user voted for
 		if($votes != null){
-		foreach($voted as $vote){
-			array_push($votes, $vote->get('picid'));
-		}
+			foreach($voted as $vote){
+				array_push($votes, $vote->get('picid'));
+			}
 		}
 
 		include_once SYSTEM_PATH.'/view/vote.tpl';
 	}
 
 	public function about(){
-		self::loggedInCheck();
 		include_once SYSTEM_PATH.'/view/about.tpl';
 	}
 

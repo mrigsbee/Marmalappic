@@ -136,7 +136,7 @@ class SiteController {
             $pic = $result->get('file');
             $uploaded = true;
             $theme_row = DateTheme::getTheme($today);
-			if($theme_row != null) $theme->get('theme');
+			if($theme_row != null) $theme = $theme_row->get('theme');
         }
 
 		include_once SYSTEM_PATH.'/view/upload.tpl';

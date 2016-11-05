@@ -128,6 +128,7 @@ ul#nav li{
 #individual{
 	margin: 0 auto;
 	width: 70%;
+	padding-bottom: 30px;
 }
 
 .inappropriate{
@@ -140,11 +141,11 @@ ul#nav li{
 	margin-right: auto;
 }
 
-#individual div{
+/*#individual div{
 
 	margin: 0 auto;
 
-}
+}*/
 
 .trophy{
 	max-width: 20px;

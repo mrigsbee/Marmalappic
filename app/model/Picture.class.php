@@ -157,5 +157,17 @@ class picture extends DbObject {
             return ($obj);
         }
     }
+
+    public function delete()
+    {
+         $db = Db::instance();
+            $query = sprintf(" DELETE FROM %s  WHERE id = '%s'",
+            self::DB_TABLE,
+            $this->id
+            );
+            $ex = mysql_query($query);
+            if(!$ex)
+            die ('Query failed:' . mysql_error());
+    }
 }
 ?>

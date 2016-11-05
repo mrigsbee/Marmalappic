@@ -281,6 +281,10 @@ class SiteController {
 	}
 
 	public function uploadsave(){
+		$user = $_SESSION['username'];
+		$today = date("Y-m-d");
+		$current_pic = Picture::getPicByUserAndDate($user, $today);
+
 		if(isset($_FILES['image'])){
 		      $errors= array();
 		      $file_name = $_FILES['image']['name'];
@@ -319,7 +323,12 @@ class SiteController {
 				 //Path on local system (CHANGE IF HOST CHANGES)
 				 $path = $marmalappic."\\public\\media\\user_uploads\\".$file_name;
 		         move_uploaded_file($file_tmp,$path);
-		          $_SESSION['success'] = "<b>Success!</b> Your picture has been uploaded.";
+		         $_SESSION['success'] = "<b>Success!</b> Your picture has been uploaded.";
+
+				  //delete existing upload if exists
+		  	      if($current_pic != null){
+		  			  $current_pic->delete();
+		  		  }
 
 				  //ADD TO DATABASE
 				  $picture = new Picture();

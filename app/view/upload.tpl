@@ -79,6 +79,15 @@
         ?>
     </span>
 
+    <?php
+      if($uploaded){
+          echo '<div class="alert alert-danger">
+            <font size="+2"><b>You have already uploaded an image today.</b></font><br>
+            Uploading a new image below will <u>replace</u> your current one.
+            Voting information does not transfer to your new image.
+          </div>';
+      }
+    ?>
 
       <h1>Upload Your Pic!</h1>
       <hr>
@@ -97,11 +106,11 @@
 
     <?php
       // hides the upload form if the user has already uploaded a picture
-      if($uploaded){
-          ?><style type="text/css">#uploadDiv{
-              display:none;
-           }</style><?php
-      }
+    //   if($uploaded){
+    //       ?><style type="text/css">#uploadDiv{
+    //           display:none;
+    //        }</style><?php
+    //   }
     ?>
     <div id="uploadDiv" class="row">
       <div class="col-md-3"></div>

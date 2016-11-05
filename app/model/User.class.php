@@ -78,12 +78,22 @@ class User extends DbObject {
         }
     }
 
-    //gets the user's overall score
-    public static function score($pix) {
-        $score = 0;
-        foreach($pix as $picture){
-		    $score += $picture->get('numvotes');
-		}
-        return $score;
+    public static function getTeamMembers($team) {
+        $query = sprintf(" SELECT * FROM %s WHERE teamname='%s'",
+            self::DB_TABLE,
+            $team
+        );
+
+        $db = Db::instance();
+        $result = $db->lookup($query);
+        if(!mysql_num_rows($result))
+            return null;
+        else {
+            $objects = array();
+            while($row = mysql_fetch_assoc($result)) {
+                $objects[] = self::loadById($row['id']);
+            }
+            return ($objects);
+        }
     }
 }

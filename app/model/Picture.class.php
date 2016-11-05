@@ -162,37 +162,69 @@ class picture extends DbObject {
 
     public function delete()
     {
-         $db = Db::instance();
-            $query = sprintf(" DELETE FROM %s  WHERE id = '%s'",
+        $db = Db::instance();
+        $query = sprintf(" DELETE FROM %s  WHERE id = '%s'",
             self::DB_TABLE,
             $this->id
-            );
-            mysql_query($query);
+        );
+        mysql_query($query);
     }
 
     public function incVotes(){
        $db = Db::instance();
        $query = sprintf(" UPDATE %s SET numvotes=numvotes+1 WHERE id = '%s'",
-       self::DB_TABLE,
-       $this->id
+           self::DB_TABLE,
+           $this->id
        );
        mysql_query($query);
+
+       //Update user's score
+       $pic_user = User::loadByUsername($this->username);
+       $userid = $pic_user->get('id');
+       $query2 = sprintf(" UPDATE %s SET score=score+1 WHERE id = '%s'",
+           "user",
+           $userid
+       );
+       mysql_query($query2);
+
+       //Update team's score
+       $teamname = $pic_user->get('teamname');
+       $query3 = sprintf(" UPDATE %s SET score=score+1 WHERE teamname = '%s'",
+           "team",
+           $teamname
+       );
+       mysql_query($query3);
     }
 
     public function decVotes(){
        $db = Db::instance();
        $query = sprintf(" UPDATE %s SET numvotes=numvotes-1 WHERE id = '%s'",
-       self::DB_TABLE,
-       $this->id
+           self::DB_TABLE,
+           $this->id
        );
        mysql_query($query);
+
+       $pic_user = User::loadByUsername($this->username);
+       $userid = $pic_user->get('id');
+       $query2 = sprintf(" UPDATE %s SET score=score-1 WHERE id = '%s'",
+           "user",
+           $userid
+       );
+       mysql_query($query2);
+
+       $teamname = $pic_user->get('teamname');
+       $query3 = sprintf(" UPDATE %s SET score=score-1 WHERE teamname = '%s'",
+           "team",
+           $teamname
+       );
+       mysql_query($query3);
     }
 
     public function incFlags(){
        $db = Db::instance();
        $query = sprintf(" UPDATE %s SET numflags=numflags+1 WHERE id = '%s'",
-       self::DB_TABLE,
-       $this->id
+           self::DB_TABLE,
+           $this->id
        );
        mysql_query($query);
     }

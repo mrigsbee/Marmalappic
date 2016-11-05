@@ -209,7 +209,7 @@ class SiteController {
 
 		//get all images uploaded
 		$pix = Picture::getAllByUser($username);
-		$overall_score = User::score($pix);
+		$overall_score = $user_row->get('score');
 		include_once SYSTEM_PATH.'/view/account.tpl';
 	}
 

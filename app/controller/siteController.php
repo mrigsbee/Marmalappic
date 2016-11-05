@@ -189,6 +189,8 @@ class SiteController {
 	public function pastwinners(){
 		self::loggedInCheck();
 		$winners = Picture::getAllWinning();
+		array_shift ($winners); //don't show a winner for current date
+
 		include_once SYSTEM_PATH.'/view/pastwinners.tpl';
 	}
 
@@ -200,6 +202,7 @@ class SiteController {
 
 	public function account(){
 		self::loggedInCheck();
+
 		//get username
 		$user_row = User::loadByUsername($_SESSION['username']);
 		$username = $user_row->get('username');

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2016 at 06:50 PM
+-- Generation Time: Nov 05, 2016 at 01:36 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -37,7 +37,7 @@ CREATE TABLE `datetheme` (
 
 INSERT INTO `datetheme` (`date`, `theme`) VALUES
 ('2016-11-04', 'Autumn in Blacksburg'),
-('2016-11-01', 'Bird''s Eye View'),
+('2016-11-05', 'Bird''s Eye View'),
 ('2016-11-02', 'No Shave November'),
 ('2016-11-03', 'Ut Prosim');
 
@@ -50,10 +50,9 @@ INSERT INTO `datetheme` (`date`, `theme`) VALUES
 CREATE TABLE `picture` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `NumVotes` int(11) NOT NULL,
-  `NumFlags` int(11) NOT NULL,
-  `Date` date NOT NULL,
-  `isWinner` tinyint(1) NOT NULL,
+  `numvotes` int(11) NOT NULL,
+  `numflags` int(11) NOT NULL,
+  `date` date NOT NULL,
   `file` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -61,12 +60,13 @@ CREATE TABLE `picture` (
 -- Dumping data for table `picture`
 --
 
-INSERT INTO `picture` (`id`, `username`, `NumVotes`, `NumFlags`, `Date`, `isWinner`, `file`) VALUES
-(5, 'Freshman10', 23, 0, '2016-11-01', 1, '/public/media/user_uploads/pylons.jpg'),
-(8, 'Alumni1009', 345, 1, '2016-11-04', 0, '/public/media/user_uploads/torg.jpg'),
-(13, 'EngineerVT22', 65, 0, '2016-11-02', 1, '/public/media/user_uploads/torg.jpg'),
-(22, 'HokieBird12', 0, 0, '2016-11-03', 1, '/public/media/user_uploads/torg.jpg'),
-(23, '78', 0, 0, '2016-11-04', 0, '/public/media/user_uploads/upload2.png');
+INSERT INTO `picture` (`id`, `username`, `numvotes`, `numflags`, `date`, `file`) VALUES
+(5, 'Freshman10', 23, 0, '2016-11-04', '/public/media/user_uploads/pylons.jpg'),
+(8, 'Alumni1009', 103, 1, '2016-11-05', '/public/media/user_uploads/torg.jpg'),
+(13, 'EngineerVT22', 65, 0, '2016-11-02', '/public/media/user_uploads/torg.jpg'),
+(22, 'HokieBird12', 0, 0, '2016-11-03', '/public/media/user_uploads/torg.jpg'),
+(23, '78', 1, 0, '2016-11-05', '/public/media/user_uploads/upload2.png'),
+(24, 'HokieBird12', 133, 0, '2016-11-04', '/public/media/user_uploads/upload2.png');
 
 -- --------------------------------------------------------
 
@@ -133,6 +133,13 @@ CREATE TABLE `userflag` (
   `picid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `userflag`
+--
+
+INSERT INTO `userflag` (`username`, `id`, `picid`) VALUES
+('HokieBird12', 31, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -150,9 +157,8 @@ CREATE TABLE `uservote` (
 --
 
 INSERT INTO `uservote` (`username`, `picid`, `id`) VALUES
-('HokieBird12', 8, 1),
 ('VTFreshman2020', 8, 15),
-('HokieBird12', 8, 16);
+('HokieBird12', 8, 149);
 
 --
 -- Indexes for dumped tables
@@ -205,7 +211,7 @@ ALTER TABLE `uservote`
 -- AUTO_INCREMENT for table `picture`
 --
 ALTER TABLE `picture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -215,12 +221,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `userflag`
 --
 ALTER TABLE `userflag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `uservote`
 --
 ALTER TABLE `uservote`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -67,26 +67,27 @@
                                       echo "<tr>";
                                   }
 
-                          $pic  = $winner->get('file');
-                          $username  = $winner->get('username');
-                          $date = $winner->get('date');
-                          if(!is_null(DateTheme::getTheme($date))){
-                        $theme = DateTheme::getTheme($date)->get('theme');
-                      }
-                          $formatted_date = date("m / d / Y",strtotime($date));
+                                  $pic  = $winner->get('file');
+                                  $username  = $winner->get('username');
 
-                          echo '<td class="col-md-4 project">';
-                            echo "<p class='date'>$formatted_date</p>";
-                            echo '<div class="mainPic">';
-                            echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="pic">';
-                            echo "</div>";
-                            echo '<div class="single_winner">';
-                            echo "<h5>Submitted by: $username</h5>";
-                            echo "<h6>Winner for: $theme</h6>";
-                            echo "</div>";
-                          echo "</td>";
+                                   $date = $winner->get('date');
 
-                          $counter++;
+                                  if(!is_null(DateTheme::getTheme($date))){
+                                        $theme = DateTheme::getTheme($date)->get('theme');
+                                  }
+
+                              echo '<td class="col-md-4 project">';
+                                echo "<p class='date'>$date</p>";
+                                echo '<div class="mainPic">';
+                                echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="pic">';
+                                echo "</div>";
+                                echo '<div class="single_winner">';
+                                echo "<h5>Submitted by: $username</h5>";
+                                echo "<h6>Winner for: $theme</h6>";
+                                echo "</div>";
+                              echo "</td>";
+
+                              $counter++;
                       }
                   }
               ?>

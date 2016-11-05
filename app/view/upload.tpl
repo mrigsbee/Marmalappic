@@ -79,16 +79,6 @@
         ?>
     </span>
 
-    <?php
-      if($uploaded){
-          echo '<div class="alert alert-danger">
-            <font size="+2"><b>You have already uploaded an image today.</b></font><br>
-            Uploading a new image below will <u>replace</u> your current one.
-            Voting information does not transfer to your new image.
-          </div>';
-      }
-    ?>
-
       <h1>Upload Your Pic!</h1>
       <hr>
       <br>
@@ -105,18 +95,31 @@
     </div>
 
     <?php
-      // hides the upload form if the user has already uploaded a picture
-    //   if($uploaded){
-    //       ?><style type="text/css">#uploadDiv{
-    //           display:none;
-    //        }</style><?php
-    //   }
+      // show user 'delete' button if they have a photo already uploaded
+      if($uploaded){
+          ?><style type="text/css">#uploadDiv{
+              display:none;
+           }</style>
+           <style type="text/css">#deleteDiv{
+               display:show;
+            }</style>
+           <?php
+      }
+      // show user 'upload/submit' button if they have not yet uploaded a photo
+      else {
+          ?><style type="text/css">#deleteDiv{
+              display:none;
+           }</style>
+           <style type="text/css">#uploadDiv{
+               display:show;
+            }</style><?php
+      }
     ?>
+
+    <!-- Upload form -->
     <div id="uploadDiv" class="row">
       <div class="col-md-3"></div>
         <div class="col-md-6">
-
-
             <div id="picUpload" style="text-align:center; vertical-align:middle">
               <span><b>Upload</b></span>
               <br>
@@ -129,6 +132,21 @@
       </div>
       <div class="col-md-3"></div>
   </div>
+
+  <!-- Delete form -->
+  <div id="deleteDiv" class="row">
+    <div class="col-md-3"></div>
+      <div class="col-md-6">
+          <div id="picDelete" style="text-align:center; vertical-align:middle">
+            <span><b>Want to remove your submission?</b></span>
+            <br>
+            <form action="<?= BASE_URL ?>/upload/delete" method="POST">
+                <input type="submit" value="Delete photo"/>
+            </form>
+          </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
 
     </div>
   </div>

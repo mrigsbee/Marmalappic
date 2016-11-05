@@ -194,6 +194,11 @@ ul#nav li{
 	 border-radius: 15px;
  }
 
+div#picDelete{
+	 background-color: #f7a072;
+	 border-radius: 15px;
+ }
+
 .past p{
 	margin-bottom: 1% !important;
 	text-align: left !important;

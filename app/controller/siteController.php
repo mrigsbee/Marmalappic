@@ -59,6 +59,9 @@ class SiteController {
 			case 'uploadsave':
 				$this->uploadsave();
 				break;
+			case 'uploaddelete':
+				$this->uploaddelete();
+				break;
 			case 'postvote':
 				$this->postvote();
 				break;
@@ -278,6 +281,17 @@ class SiteController {
 
 		// redirect to home page
 		header('Location: '.BASE_URL);
+	}
+
+	public function uploaddelete(){
+		$user = $_SESSION['username'];
+		$today = date("Y-m-d");
+		$current_pic = Picture::getPicByUserAndDate($user, $today);
+		if($current_pic != null){
+			$current_pic->delete();
+		}
+		$uploaded = false;
+		header('Location: '.BASE_URL.'/upload');
 	}
 
 	public function uploadsave(){

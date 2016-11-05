@@ -153,6 +153,10 @@ class SiteController {
 		$user->set('username', $username);
 		$user->save();
 
+		//incremement flagged count
+		$picture = Picture::loadById($flagged);
+		$picture->incFlags();
+
 		// send email
 		//mail("EMAIL ADDRESS GOES HERE","Marmalappic Flagged Photo",$msg);
 
@@ -258,6 +262,9 @@ class SiteController {
 		$row = UserVote::getRow($username, $picid);
 		$row->delete();
 
+		$picture = Picture::loadById($picid);
+		$picture->decVotes();
+
 		header('Location: '.BASE_URL.'/vote');
 	}
 
@@ -270,6 +277,9 @@ class SiteController {
 		$user->set('picid', $picid);
 		$user->set('username', $username);
 		$user->save();
+
+		$picture = Picture::loadById($picid);
+		$picture->incVotes();
 
 		header('Location: '.BASE_URL.'/vote');
 	}

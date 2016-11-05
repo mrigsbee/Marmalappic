@@ -169,5 +169,38 @@ class picture extends DbObject {
             if(!$ex)
             die ('Query failed:' . mysql_error());
     }
+
+    public function incVotes(){
+       $db = Db::instance();
+       $query = sprintf(" UPDATE %s SET numvotes=numvotes+1 WHERE id = '%s'",
+       self::DB_TABLE,
+       $this->id
+       );
+       $ex = mysql_query($query);
+       if(!$ex)
+       die ('Query failed:' . mysql_error());
+    }
+
+    public function decVotes(){
+       $db = Db::instance();
+       $query = sprintf(" UPDATE %s SET numvotes=numvotes-1 WHERE id = '%s'",
+       self::DB_TABLE,
+       $this->id
+       );
+       $ex = mysql_query($query);
+       if(!$ex)
+       die ('Query failed:' . mysql_error());
+    }
+
+    public function incFlags(){
+       $db = Db::instance();
+       $query = sprintf(" UPDATE %s SET numflags=numflags+1 WHERE id = '%s'",
+       self::DB_TABLE,
+       $this->id
+       );
+       $ex = mysql_query($query);
+       if(!$ex)
+       die ('Query failed:' . mysql_error());
+    }
 }
 ?>

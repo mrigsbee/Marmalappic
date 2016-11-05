@@ -59,6 +59,9 @@ class SiteController {
 			case 'uploadsave':
 				$this->uploadsave();
 				break;
+			case 'postvote':
+				$this->postvote();
+				break;
 		}
 	}
 
@@ -115,16 +118,42 @@ class SiteController {
 		//need to get which photos the user voted on
 		$user_row = User::loadByUsername($_SESSION['username']);
 		$username = $user_row->get('username');
-		$voted = UserVote::getAllByUser($username);
 
-		$votes = array(); //array of picids that the user voted for
-		if($votes != null){
+		$voted = UserVote::getAllByUser($username);
+		$votes = []; //array of picids that the user voted for
+		if($voted != null){
 			foreach($voted as $vote){
-				array_push($votes, $vote->get('picid'));
+				$votes[] = $vote->get('picid');
+			}
+		}
+
+		$flagged = UserFlag::getAllByUser($username);
+		$flags = []; //array of picids that the user voted for
+		if($flagged != null){
+			foreach($flagged as $flag){
+				$flags[] = $flag->get('picid');
 			}
 		}
 
 		include_once SYSTEM_PATH.'/view/vote.tpl';
+	}
+
+	public function postvote(){
+		$flagged = $_POST['picid'];
+		$username = $_SESSION['username'];
+
+		$msg = "The photo with id ".$flagged." has been reported as inappropriate by ".$username.".";
+
+		//variables from page
+		$user = new UserFlag();
+		$user->set('picid', $flagged);
+		$user->set('username', $username);
+		$user->save();
+
+		// send email
+		//mail("EMAIL ADDRESS GOES HERE","Marmalappic Flagged Photo",$msg);
+
+		header('Location: '.BASE_URL.'/vote');
 	}
 
 	public function about(){

@@ -24,7 +24,6 @@ $(document).ready(function(){
     ///
 
     $('.vote').click(function(){
-
         var id = $(this).attr('id');
         var res = id.split("_");
         var voted = res[0];
@@ -39,6 +38,28 @@ $(document).ready(function(){
 
                 $("#" + id).hide();
                 $("#voted_" + picid).show();
+        });
+
+    });
+
+    ///
+    $('.flagged').click(function(){
+
+        var id = $(this).attr('id');
+        var res = id.split("_");
+        var picid = res[1];
+
+        var id = $(this).attr('id');
+
+        $.post(
+            '/Marmalappic/postvote/?',
+            {
+              "picid": picid
+             }, "json")
+            .done(function(data){
+
+                $("#" + id).hide();
+                $("#flagged_" + picid).show();
         });
 
     });

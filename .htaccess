@@ -20,6 +20,8 @@ RewriteRule ^vote/delete/?$ app/controller/siteController.php?action=votedelete 
 RewriteRule ^vote/save/?$ app/controller/siteController.php?action=votesave [QSA,L]
 RewriteRule ^logout/?$ app/controller/siteController.php?action=logout [QSA,L]
 RewriteRule ^upload/save/?$ app/controller/siteController.php?action=uploadsave [QSA,L]
+RewriteRule ^postvote/?$ app/controller/siteController.php?action=postvote [QSA,L]
+
 
 # Users
 RewriteRule ^profile/?$ app/controller/profileController.php?action=viewProfile&user_id=0 [QSA,L]

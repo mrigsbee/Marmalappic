@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2016 at 07:34 PM
+-- Generation Time: Nov 04, 2016 at 06:50 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -36,8 +36,10 @@ CREATE TABLE `datetheme` (
 --
 
 INSERT INTO `datetheme` (`date`, `theme`) VALUES
-('2016-10-23', 'Autumn in Blacksburg'),
-('2016-10-24', 'Invent the Future');
+('2016-11-04', 'Autumn in Blacksburg'),
+('2016-11-01', 'Bird''s Eye View'),
+('2016-11-02', 'No Shave November'),
+('2016-11-03', 'Ut Prosim');
 
 -- --------------------------------------------------------
 
@@ -60,13 +62,11 @@ CREATE TABLE `picture` (
 --
 
 INSERT INTO `picture` (`id`, `username`, `NumVotes`, `NumFlags`, `Date`, `isWinner`, `file`) VALUES
-(1, 'HokieBird12', 19, 0, '2016-10-23', 0, '/public/media/torg.jpg'),
-(2, 'HokieBird12', 203, 0, '2016-10-24', 1, '/public/media/garden.jpg'),
-(4, 'HokieBird1', 102, 1, '2016-10-23', 1, '/public/media/garden.jpg'),
-(5, 'Freshman10', 23, 0, '2016-10-24', 0, '/public/media/pylons.jpg'),
-(6, 'MarmaladeFan101', 34, 2, '2016-10-24', 0, '/public/media/torg.jpg'),
-(7, 'VPIVPIVPI', 343, 2, '2016-10-24', 0, '/public/media/garden.jpg'),
-(8, 'Alumni1009', 345, 1, '2016-10-24', 0, '/public/media/torg.jpg');
+(5, 'Freshman10', 23, 0, '2016-11-01', 1, '/public/media/user_uploads/pylons.jpg'),
+(8, 'Alumni1009', 345, 1, '2016-11-04', 0, '/public/media/user_uploads/torg.jpg'),
+(13, 'EngineerVT22', 65, 0, '2016-11-02', 1, '/public/media/user_uploads/torg.jpg'),
+(22, 'HokieBird12', 0, 0, '2016-11-03', 1, '/public/media/user_uploads/torg.jpg'),
+(23, '78', 0, 0, '2016-11-04', 0, '/public/media/user_uploads/upload2.png');
 
 -- --------------------------------------------------------
 
@@ -84,9 +84,9 @@ CREATE TABLE `team` (
 --
 
 INSERT INTO `team` (`teamname`, `score`) VALUES
-('HokieBird', 390),
-('LeeHall2020', 39),
-('VPIVPIVPI', 234);
+('HokieBird', 340),
+('Marmalade', 123),
+('Winners', 604);
 
 -- --------------------------------------------------------
 
@@ -109,7 +109,29 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `teamname`, `email`, `password`, `score`) VALUES
 (1, 'VTFreshman2020', 'HokieBird', 'qwerty@vt.edu', '1234', 109),
-(2, 'HokieBird12', 'Marmalade', 'hokies@vt.edu', '1234', 230);
+(2, 'HokieBird12', 'Marmalade', 'hokies@vt.edu', '1234', 230),
+(3, 'Megan', 'Marmalappic', 'megan@gmail.com', '1234', 0),
+(4, 'Megan2', 'M', 'mr@gmail.com', '1234', 0),
+(5, '123', '123', '124', '123', 0),
+(6, '445', '45', '45', '45', 0),
+(7, '1', '1', '1', '1', 0),
+(8, '2', '5', '3', '4', 0),
+(10, '4', '4', '4', '4', 0),
+(11, '9', '9', '9', '9', 0),
+(12, '10', '1010', '10', '10101', 0),
+(13, '78', '78', '78', '78', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userflag`
+--
+
+CREATE TABLE `userflag` (
+  `username` varchar(100) NOT NULL,
+  `id` int(11) NOT NULL,
+  `picid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -128,8 +150,9 @@ CREATE TABLE `uservote` (
 --
 
 INSERT INTO `uservote` (`username`, `picid`, `id`) VALUES
-('HokieBird12', 4, 1),
-('HokieBird12', 5, 2);
+('HokieBird12', 8, 1),
+('VTFreshman2020', 8, 15),
+('HokieBird12', 8, 16);
 
 --
 -- Indexes for dumped tables
@@ -163,6 +186,12 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `Email` (`email`);
 
 --
+-- Indexes for table `userflag`
+--
+ALTER TABLE `userflag`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `uservote`
 --
 ALTER TABLE `uservote`
@@ -176,17 +205,22 @@ ALTER TABLE `uservote`
 -- AUTO_INCREMENT for table `picture`
 --
 ALTER TABLE `picture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `userflag`
+--
+ALTER TABLE `userflag`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `uservote`
 --
 ALTER TABLE `uservote`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

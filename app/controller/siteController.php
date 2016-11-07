@@ -171,7 +171,7 @@ class SiteController {
 		self::loggedInCheck();
         $user = $_SESSION['username'];
         $today = date("Y-m-d", time());
-        $pic = "/public/media/garden.jpg";
+        $pic = "/public/media/upload.jpeg";
         $uploaded = false;
 
         //check if user already uploaded photo, if so, display it

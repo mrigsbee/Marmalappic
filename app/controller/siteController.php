@@ -428,6 +428,11 @@ class SiteController {
 			exit();
 		}
 
+		if(preg_match('/[^A-Za-z0-9._]/', $username)){
+			$_SESSION['registerError'] = 'Sorry, that username contains invalid characters';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
 		// is username in use?
 		$user = User::loadByUsername($username);
 		if(!is_null($user)) {
@@ -436,6 +441,22 @@ class SiteController {
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
+		$user = User::loadByEmail($email);
+		if(!is_null($user)) {
+			// username already in use; send us back
+			$_SESSION['registerError'] = 'Sorry, that email is already in use. Please pick a different one.';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+		$allowed_domains = array("vt.edu");
+		$email_domain = array_pop(explode("@", $email));
+		if(!in_array($email_domain, $allowed_domains)) {
+    	// Not an authorised email 
+			$_SESSION['registerError'] = 'Sorry, that email is not a vt.edu email';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+
 
 		// okay, let's register
 		$user = new User();

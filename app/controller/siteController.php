@@ -32,7 +32,8 @@ class SiteController {
 			case 'standings':
 				$this->standings();
 				break;
-				case 'signupRegister':
+			case 'signupRegister':
+
 				$this->signupRegister();
 				break;
 			case 'account':
@@ -75,11 +76,11 @@ class SiteController {
 		}
 		else{
 			$yesterday = 'No winner';
-			$yesterday_pic = 'No pic';
+			$yesterday_pic = null;
 		}
 		//Yesterday's theme
 		$yesterdays_date = date("Y-m-d", time() - 60*60*24);
-		if(!is_null(DateTheme::getTheme($yesterdays_date)->get('theme'))){
+		if(!is_null(DateTheme::getTheme($yesterdays_date))){
 		$yesterdays_theme = DateTheme::getTheme($yesterdays_date)->get('theme');
 	}
 	else{
@@ -88,7 +89,7 @@ class SiteController {
 
 		//Today's theme
 		$todays_date = date("Y-m-d");
-		if(!is_null(DateTheme::getTheme($todays_date)->get('theme'))){
+		if(!is_null(DateTheme::getTheme($todays_date))){
 		$theme = DateTheme::getTheme($todays_date)->get('theme');
 	}
 	else{
@@ -112,8 +113,10 @@ class SiteController {
 		$voted = UserVote::getAllByUser($username);
 
 		$votes = array(); //array of picids that the user voted for
+		if($votes != null){
 		foreach($voted as $vote){
 			array_push($votes, $vote->get('picid'));
+		}
 		}
 
 		include_once SYSTEM_PATH.'/view/vote.tpl';
@@ -167,6 +170,7 @@ class SiteController {
 	}
 
 	public function signup(){
+		$teams = Team::getAllTeams();
 		include_once SYSTEM_PATH.'/view/signup.tpl';
 	}
 
@@ -341,7 +345,7 @@ class SiteController {
 	public function signupRegister() {
 		// get post data
 		$username  = $_POST['username'];
-		$teamname = $_POST['teamname'];
+		$teamname = $_POST['nteams'];
 		$passwd = $_POST['passwd'];
 		$email  = $_POST['email'];
 
@@ -350,19 +354,45 @@ class SiteController {
 		// are all the required fields filled?
 		if ($username == '' || $teamname == '' || $passwd == '' || $email == '') {
 			// missing form data; send us back
-			$_SESSION['registerError'] = 'Please complete all registration fields.';
+			$_SESSION['error'] = 'Please complete all registration fields.';
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
-
+		if(preg_match('/[^A-Za-z0-9._]/', $username)){
+			$_SESSION['error'] = 'Sorry, that username contains invalid characters';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
 		// is username in use?
 		$user = User::loadByUsername($username);
 		if(!is_null($user)) {
 			// username already in use; send us back
-			$_SESSION['registerError'] = 'Sorry, that username is already in use. Please pick a unique one.';
+			$_SESSION['error'] = 'Sorry, that username is already in use. Please pick a unique one.';
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
+		$user = User::loadByEmail($email);
+		if(!is_null($user)) {
+			// email is in use
+			$_SESSION['error'] = 'Sorry, that email is already in use. Please pick a different one.';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+		$allowed_domains = array("vt.edu");
+		$email_domain = array_pop(explode("@", $email));
+		if(!in_array($email_domain, $allowed_domains)) {
+    	// Not an authorised email 
+			$_SESSION['error'] = 'Sorry, that email is not a vt.edu email';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+		/*if (!preg_match('|@vt.edu$|', $email){
+			//email is not vt.edu
+			$_SESSION['registerError'] = 'Sorry, that email is not a vt.edu email';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+
+		}*/
 
 		// okay, let's register
 		$user = new User();
@@ -371,6 +401,15 @@ class SiteController {
 		$user->set('password', $passwd);
 		$user->set('email', $email);
 		$user->save(); // save to db
+/*
+Was going to try and update a counter
+		//$user_row = User::loadByUsername($username);
+		$team = Team::loadByTeamname($teamname);
+		$count = $team->get('membercount');
+		$team->set('score', $team->get('score'));
+		$team->set('membercount', $count++);
+		$team->save();
+		*/
 
 		// log in this freshly created user
 		// $_SESSION['username'] = $uname;

@@ -11,13 +11,15 @@ class team extends DbObject{
     public function __construct($args = array()){
         $defaultArgs = array(
             'teamname' => '',
-            'score' => 0
-        );
+            'score' => 0,
+            'membercount' =>0
+            );
 
         $args += $defaultArgs;
 
         $this->teamname = $args['teamname'];
         $this->score = $args['score'];
+        $this->membercount = $args['membercount'];
     }
 
     //save changes to database
@@ -25,9 +27,9 @@ class team extends DbObject{
         $db = Db::instance();
 
         $db_properties = array(
-            'teamname' => $this->teamname,
-            'score' => $this->score
-        );
+            'score' => $this->score,
+            'membercount' => $this->membercount
+            );
 
         $db->store($this, __CLASS__, self::DB_TABLE, $db_properties);
     }
@@ -39,7 +41,7 @@ class team extends DbObject{
         $query = sprintf(" SELECT * FROM %s WHERE TeamName = '%s' ",
             self::DB_TABLE,
             $teamname
-        );
+            );
 
         $db = Db::instance();
         $result = $db->lookup($query);
@@ -55,7 +57,7 @@ class team extends DbObject{
     public static function getAllDescScore() {
         $query = sprintf(" SELECT * FROM %s ORDER BY score DESC",
             self::DB_TABLE
-        );
+            );
 
         $db = Db::instance();
         $result = $db->lookup($query);
@@ -69,5 +71,22 @@ class team extends DbObject{
             return ($objects);
         }
     }
+    public static function getAllTeams($limit=null) {
+     $query = sprintf(" SELECT * FROM %s ORDER BY teamname DESC",
+        self::DB_TABLE
+        );
+
+     $db = Db::instance();
+     $result = $db->lookup($query);
+     if(!mysql_num_rows($result))
+        return null;
+    else {
+        $objects = array();
+        while($row = mysql_fetch_assoc($result)) {
+            $objects[] = self::loadByTeamname($row['teamname']);
+        }
+        return ($objects);
+    }
+}
 }
 ?>

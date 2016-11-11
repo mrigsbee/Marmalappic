@@ -95,8 +95,14 @@
       ?>
       <div id ="individual">
         <div class="myPic">
+
                 <?php
+                if($yesterday_pic != null){
                     echo '<img src="'.BASE_URL.$yesterday_pic.'" alt="icon" class="myPic">';
+                  }
+                  else{
+                    echo '<p>Sadly no pic to show</p>';
+                  }
                 ?>
         </div>
         <br>

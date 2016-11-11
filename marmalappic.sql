@@ -76,17 +76,21 @@ INSERT INTO `picture` (`id`, `username`, `NumVotes`, `NumFlags`, `Date`, `isWinn
 
 CREATE TABLE `team` (
   `teamname` varchar(100) NOT NULL,
-  `score` int(11) NOT NULL
+  `score` int(11) NOT NULL,
+  `membercount` int(11) NOT NULL,
+  CONSTRAINT chk_count CHECK(membercount < 7)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `team`
 --
 
-INSERT INTO `team` (`teamname`, `score`) VALUES
-('HokieBird', 390),
-('LeeHall2020', 39),
-('VPIVPIVPI', 234);
+INSERT INTO `team` (`teamname`, `score`, `membercount`) VALUES
+('Orange', 0, 0),
+('Maroon', 0, 0),
+('Marmalappic', 0, 0),
+('Hokie', 0, 0),
+('Ut Prosim', 0, 0);
 
 -- --------------------------------------------------------
 

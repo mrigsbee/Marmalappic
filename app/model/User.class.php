@@ -78,6 +78,25 @@ class User extends DbObject {
         }
     }
 
+     // load user by username
+    public static function loadByEmail($email=null) {
+        if($email === null)
+            return null;
+        $query = sprintf(" SELECT id FROM %s WHERE email = '%s' ",
+            self::DB_TABLE,
+            $email
+            );
+        $db = Db::instance();
+        $result = $db->lookup($query);
+        if(!mysql_num_rows($result))
+            return null;
+        else {
+            $row = mysql_fetch_assoc($result);
+            $obj = self::loadById($row['id']);
+            return ($obj);
+        }
+    }
+
     //gets the user's overall score
     public static function score($pix) {
         $score = 0;

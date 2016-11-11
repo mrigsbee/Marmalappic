@@ -69,7 +69,9 @@
                       $pic  = $winner->get('file');
                       $username  = $winner->get('username');
                       $date = $winner->get('date');
+                      if(!is_null(DateTheme::getTheme($date))){
               		  $theme = DateTheme::getTheme($date)->get('theme');
+                  }
                       $formatted_date = date("m / d / Y",strtotime($date));
 
                       echo '<td class="col-md-4 project">';

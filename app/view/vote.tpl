@@ -87,14 +87,16 @@
                               if($counter != 0) echo "</tr>";
                               echo "<tr>";
                           }
-                      
+
 
                       $pic  = $entry->get('file');
                       $un  = $entry->get('username');
 
-                      if($username == $un){
-                          continue; //don't show pictures uploaded by the user currently signed in
+                      //don't show pictures uploaded by the user and their teammates
+                      if(in_array($un, $teammates)){
+                          continue;
                       }
+
                       $picid = $entry->get('id');
 
                           echo '<td class="col-md-4 project">';

@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="navbar navbar-light navbar-static-top">
-      <img src="<?= BASE_URL ?>/public/media/marma.png" alt="icon" style="width:40px;height:40px;" id="logo">
+       <img src="<?= BASE_URL ?>/public/media/applogo.png" alt="icon" class="applogo">
       <div class="collapse navbar-toggleable-sm pull-sm-right" id="navbar-header">
         <ul class="nav navbar-nav">
             <li class="nav-item">

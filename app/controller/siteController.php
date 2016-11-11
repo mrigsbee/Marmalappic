@@ -433,17 +433,22 @@ class SiteController {
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
-		if(preg_match('/[^A-Za-z0-9._]/', $username)){
+		if(strlen($username) > 25){
+			$_SESSION['error'] = 'Sorry, that username is too long.';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+		if(strlen($passwd) > 30){
+			$_SESSION['error'] = 'Sorry, that password is too long.';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+		if(preg_match('/[^A-Za-z0-9]/', $username)){
 			$_SESSION['error'] = 'Sorry, that username contains invalid characters';
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
 
-		if(preg_match('/[^A-Za-z0-9._]/', $username)){
-			$_SESSION['registerError'] = 'Sorry, that username contains invalid characters';
-			header('Location: '.BASE_URL.'/signup');
-			exit();
-		}
 		// is username in use?
 		$user = User::loadByUsername($username);
 		if(!is_null($user)) {
@@ -467,14 +472,6 @@ class SiteController {
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
-
-		/*if (!preg_match('|@vt.edu$|', $email){
-			//email is not vt.edu
-			$_SESSION['registerError'] = 'Sorry, that email is not a vt.edu email';
-			header('Location: '.BASE_URL.'/signup');
-			exit();
-
-		}*/
 
 		$user = User::loadByEmail($email);
 		if(!is_null($user)) {

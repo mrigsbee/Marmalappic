@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="navbar navbar-light navbar-static-top">
-      <img src="<?= BASE_URL ?>/public/media/applogo.png" alt="icon" style="width:40px;height:40px;" id="logo">
+      <img src="<?= BASE_URL ?>/public/media/applogo.png" alt="icon" class="applogo">
       <div class="collapse navbar-toggleable-sm pull-sm-right" id="navbar-header">
         <ul class="nav navbar-nav">
           <li class="nav-item">
@@ -62,7 +62,7 @@
           {
             if($_SESSION['error'] != '')
             {
-              echo '<div class="alert alert-danger" role="alert">'.$_SESSION["registerError"].'</div>';
+              echo '<div class="alert alert-danger" role="alert">'.$_SESSION["error"].'</div>';
               $_SESSION['error'] = '';
             }
           }
@@ -102,8 +102,10 @@
            <?php
           // $pic = "/public/media/jar.png";
            $counter = 0;
+           $fullteams = 0;
            foreach($teams as $team){
-                 if($team->get('membercount') >= 6) break;
+            $count = count(User::getTeamMembers($team->get('teamname')));
+                 if($count < 6){
 
             $name = $team->get('teamname');
                    // $score = $team->get('score');
@@ -112,8 +114,15 @@
             echo "<input type='radio' name='nteams' id='$name' value='$name' />";
             echo "<label for='$name'>$name</label>";
             echo '</div>';
+          }
+          else{
+            $fullteams++;
+          }
             $counter++;
 
+          }
+          if ($fullteams == 5){
+            echo '<h2>Sorry, all teams are currently full</h2>';
           }
 
           ?>

@@ -2,6 +2,11 @@ body{
 	font-family: 'Raleway', sans-serif !important;
 }
 
+.applogo{
+	height: 40px !important;
+	
+}
+
 .date{
 	font-size: 14pt !important;
 }
@@ -9,7 +14,6 @@ body{
 .nav-item{
 	margin: 0px 5px;
 }
-
 .navbar{
 	width: 100%;
 	border-bottom: 2px solid black;

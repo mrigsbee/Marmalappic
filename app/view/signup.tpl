@@ -62,7 +62,7 @@
           {
             if($_SESSION['error'] != '')
             {
-              echo '<div class="alert alert-danger" role="alert">'.$_SESSION["registerError"].'</div>';
+              echo '<div class="alert alert-danger" role="alert">'.$_SESSION["error"].'</div>';
               $_SESSION['error'] = '';
             }
           }
@@ -103,7 +103,8 @@
           // $pic = "/public/media/jar.png";
            $counter = 0;
            foreach($teams as $team){
-                 if($team->get('membercount') >= 6) break;
+            $count = count(User::getTeamMembers($team->get('teamname')));
+                 if($count < 6){
 
             $name = $team->get('teamname');
                    // $score = $team->get('score');
@@ -112,6 +113,7 @@
             echo "<input type='radio' name='nteams' id='$name' value='$name' />";
             echo "<label for='$name'>$name</label>";
             echo '</div>';
+          }
             $counter++;
 
           }

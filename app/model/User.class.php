@@ -82,8 +82,6 @@ class User extends DbObject {
      // load user by username
     public static function loadByEmail($email=null) {
 
-        public static function loadByEmail($email=null) {
-
         if($email === null)
             return null;
         $query = sprintf(" SELECT id FROM %s WHERE email = '%s' ",
@@ -108,6 +106,8 @@ class User extends DbObject {
 		    $score += $picture->get('numvotes');
 		}
         return $score;
+    }
+    
     public static function getTeamMembers($team) {
         $query = sprintf(" SELECT * FROM %s WHERE teamname='%s'",
             self::DB_TABLE,

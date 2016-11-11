@@ -97,7 +97,6 @@
                         $theme_row = DateTheme::getTheme($date);
                         if($theme_row != null) $theme = $theme_row->get('theme');
                         $score = $entry->get('numvotes');
-                      }
 
                         echo '<div class="past">';
                             echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="tinyPic">';

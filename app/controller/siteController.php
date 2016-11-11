@@ -122,7 +122,7 @@ class SiteController {
 		}
 
 		$todays_entries = Picture::getAllToday();
-		shuffle($todays_entries);
+		if ($todays_entries != null) shuffle($todays_entries);
 
 		//need to get which photos the user voted on
 		$user_row = User::loadByUsername($_SESSION['username']);
@@ -135,18 +135,12 @@ class SiteController {
 				$votes[] = $vote->get('picid');
 			}
 		}
-
-		$votes = array(); //array of picids that the user voted for
-		if($votes != null){
-		foreach($voted as $vote){
-			array_push($votes, $vote->get('picid'));
 		$flagged = UserFlag::getAllByUser($username);
 		$flags = []; //array of picids that the user voted for
 		if($flagged != null){
 			foreach($flagged as $flag){
 				$flags[] = $flag->get('picid');
 			}
-		}
 		}
 
 		include_once SYSTEM_PATH.'/view/vote.tpl';
@@ -468,7 +462,7 @@ class SiteController {
 		$allowed_domains = array("vt.edu");
 		$email_domain = array_pop(explode("@", $email));
 		if(!in_array($email_domain, $allowed_domains)) {
-    	// Not an authorised email 
+    	// Not an authorised email
 			$_SESSION['error'] = 'Sorry, that email is not a vt.edu email';
 			header('Location: '.BASE_URL.'/signup');
 			exit();
@@ -492,13 +486,11 @@ class SiteController {
 		$allowed_domains = array("vt.edu");
 		$email_domain = array_pop(explode("@", $email));
 		if(!in_array($email_domain, $allowed_domains)) {
-    	// Not an authorised email 
+    	// Not an authorised email
 			$_SESSION['registerError'] = 'Sorry, that email is not a vt.edu email';
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
-
->>>>>>> origin/master
 
 		// okay, let's register
 		$user = new User();

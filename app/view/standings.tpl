@@ -63,23 +63,25 @@
               <?php
                 $pic = "/public/media/jar.png";
                 $counter = 0;
-                foreach($teams as $team){
-                  if($counter == 3) break;
+                if($teams != null){
+                    foreach($teams as $team){
+                      if($counter == 3) break;
 
-                    $name = $team->get('teamname');
-                    $score = $team->get('score');
+                        $name = $team->get('teamname');
+                        $score = $team->get('score');
 
-                    echo '<td class="col-md-4 project">';
-                        echo '<div class="mainPic">';
-                        echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="jar">';
-                      echo '</div>';
-                      echo '<div class="single_winner">';
-                        echo "<h5>Team $name</h5>";
-                        echo "<h6>$score Jars of Marmalade</h6>";
-                      echo '</div>';
-                    echo '</td>';
+                        echo '<td class="col-md-4 project">';
+                            echo '<div class="mainPic">';
+                            echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="jar">';
+                          echo '</div>';
+                          echo '<div class="single_winner">';
+                            echo "<h5>Team $name</h5>";
+                            echo "<h6>$score Jars of Marmalade</h6>";
+                          echo '</div>';
+                        echo '</td>';
 
-                    $counter++;
+                        $counter++;
+                    }
                 }
               ?>
           </tr>

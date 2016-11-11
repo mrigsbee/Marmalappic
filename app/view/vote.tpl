@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css?family=Chewy|Raleway" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
-  <script type="text/javascript" src="<?= BASE_URL ?>/public/js/marmalappic.js"></script>
 
   <!-- Custom styles for this template -->
   <!--   <link href="css/navbar-top-fixed.css" rel="stylesheet"> -->
@@ -69,7 +68,13 @@
               </form>
           </div>
         </div>
-        <br>
+
+        <?php
+            if($hide){
+                echo "<br><br><h3>You cannot vote until you upload a photo today!</h3>";
+            }
+            else {
+        ?>
 
         <div id = "list">
           <table id="winners">
@@ -99,7 +104,7 @@
                             echo "<h6>Uploaded by: $un</h6>";
 
                             //'Voted' button will appear if user has voted for a particular image; 'vote' button if not
-                            if (in_array($entry->get('id'), $votes)){
+                            if (in_array($picid, $votes)){
                                 //show 'voted' button
                                 echo "<button id='voted_".$picid."' type='button' class='voted btn btn-success btn-lg'><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> Voted</button>";
                                 echo "<button id='vote_".$picid."' style='display:none' type='button' class='vote btn btn-info btn-lg'>Vote</button>";
@@ -110,12 +115,24 @@
                             }
 
                             echo "<br>";
-                            echo '<a href="#" class="inappropriate"><i class="fa fa-flag" aria-hidden="true"></i> Flag as inappropriate</a>';
+
+                            //Flagged button: show if not clicked, disable if clicked
+                            if (in_array($picid, $flags)){
+                                echo "<button id='flagged_".$picid."' type='button' class='btn btn-warning btn-sm' disabled>You have flagged this image</button>";
+                                echo "<button id='flag_".$picid."' style='display:none' type='button' class='flagged btn btn-warning btn-sm'><i class='fa fa-flag' aria-hidden='true'></i> Flag as inappropriate</button>";
+
+                            } else {
+                                echo "<button id='flag_".$picid."' type='button' class='flagged btn btn-warning btn-sm'><i class='fa fa-flag' aria-hidden='true'></i> Flag as inappropriate</button>";
+                                echo "<button id='flagged_".$picid."' style='display:none' type='button' class='btn btn-warning btn-sm' disabled>You have flagged this image</button>";
+                            }
+
                             echo "</div>";
                           echo "</td>";
 
                       $counter++;
+                    }
                   }
+             } //close else statement
               ?>
             </tr>
           </table>
@@ -123,10 +140,9 @@
       </div>
     </div>
 
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://use.fontawesome.com/625f8d2098.js"></script>
     <script src="<?= BASE_URL ?>/public/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="<?= BASE_URL ?>/public/js/marmalappic.js"></script>
+
   </body>
   </html>

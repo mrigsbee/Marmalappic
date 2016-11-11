@@ -79,14 +79,13 @@
         ?>
     </span>
 
-
       <h1>Upload Your Pic!</h1>
       <hr>
       <br>
       <div id ="individual">
         <div class="myPic">
           <?php
-            if($uploaded){
+            if($uploaded && $theme_row != null){
                 echo "<h3>Your submission for: ".$theme."</h3>";
             }
             echo "<img src='".BASE_URL.$pic."' alt='icon' class='myPic'>";
@@ -94,20 +93,33 @@
         </div>
         <br>
     </div>
-    
+
     <?php
-      // hides the upload form if the user has already uploaded a picture
+      // show user 'delete' button if they have a photo already uploaded
       if($uploaded){
           ?><style type="text/css">#uploadDiv{
               display:none;
-           }</style><?php
+           }</style>
+           <style type="text/css">#deleteDiv{
+               display:show;
+            }</style>
+           <?php
+      }
+      // show user 'upload/submit' button if they have not yet uploaded a photo
+      else {
+          ?><style type="text/css">#deleteDiv{
+              display:none;
+           }</style>
+           <style type="text/css">#uploadDiv{
+               display:show;
+            }</style><?php
       }
     ?>
+
+    <!-- Upload form -->
     <div id="uploadDiv" class="row">
       <div class="col-md-3"></div>
         <div class="col-md-6">
-
-
             <div id="picUpload" style="text-align:center; vertical-align:middle">
               <span><b>Upload</b></span>
               <br>
@@ -120,6 +132,21 @@
       </div>
       <div class="col-md-3"></div>
   </div>
+
+  <!-- Delete form -->
+  <div id="deleteDiv" class="row">
+    <div class="col-md-3"></div>
+      <div class="col-md-6">
+          <div id="picDelete" style="text-align:center; vertical-align:middle">
+            <span><b>Want to remove your submission?</b></span>
+            <br>
+            <form action="<?= BASE_URL ?>/upload/delete" method="POST">
+                <input type="submit" value="Delete photo"/>
+            </form>
+          </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
 
     </div>
   </div>

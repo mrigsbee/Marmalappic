@@ -33,9 +33,8 @@ class SiteController {
 				$this->standings();
 				break;
 			case 'signupRegister':
-
 				$this->signupRegister();
-				break;
+			break;
 			case 'account':
 				$this->account();
 				break;
@@ -60,6 +59,12 @@ class SiteController {
 			case 'uploadsave':
 				$this->uploadsave();
 				break;
+			case 'uploaddelete':
+				$this->uploaddelete();
+				break;
+			case 'postvote':
+				$this->postvote();
+				break;
 		}
 	}
 
@@ -75,8 +80,10 @@ class SiteController {
 			$yesterday_pic = $yesterdays_winner->get('file');
 		}
 		else{
+
 			$yesterday = 'No winner';
 			$yesterday_pic = null;
+			$yesterday = null;
 		}
 		//Yesterday's theme
 		$yesterdays_date = date("Y-m-d", time() - 60*60*24);
@@ -89,12 +96,13 @@ class SiteController {
 
 		//Today's theme
 		$todays_date = date("Y-m-d");
-		if(!is_null(DateTheme::getTheme($todays_date))){
-		$theme = DateTheme::getTheme($todays_date)->get('theme');
-	}
-	else{
-		$theme = 'No Theme';
-	}
+		$theme_row = DateTheme::getTheme($todays_date);
+		if($theme_row != null){
+			$theme = $theme_row->get('theme');
+		}
+		else{
+			$theme = null;
+		}
 
 		include_once SYSTEM_PATH.'/view/spotoftheday.tpl';
 	}
@@ -104,26 +112,69 @@ class SiteController {
 
 		$pageTitle = 'Vote';
 
+		//check if user uploaded a photo todays_entries
+		$user = $_SESSION['username'];
+		$today = date("Y-m-d", time());
+		$picture_row = Picture::getPicByUserAndDate($user, $today);
+		$hide = false;
+		if($picture_row == null){
+			$hide = true;
+		}
+
 		$todays_entries = Picture::getAllToday();
 		shuffle($todays_entries);
 
 		//need to get which photos the user voted on
 		$user_row = User::loadByUsername($_SESSION['username']);
 		$username = $user_row->get('username');
+
 		$voted = UserVote::getAllByUser($username);
+		$votes = []; //array of picids that the user voted for
+		if($voted != null){
+			foreach($voted as $vote){
+				$votes[] = $vote->get('picid');
+			}
+		}
 
 		$votes = array(); //array of picids that the user voted for
 		if($votes != null){
 		foreach($voted as $vote){
 			array_push($votes, $vote->get('picid'));
+		$flagged = UserFlag::getAllByUser($username);
+		$flags = []; //array of picids that the user voted for
+		if($flagged != null){
+			foreach($flagged as $flag){
+				$flags[] = $flag->get('picid');
+			}
 		}
 		}
 
 		include_once SYSTEM_PATH.'/view/vote.tpl';
 	}
 
+	public function postvote(){
+		$flagged = $_POST['picid'];
+		$username = $_SESSION['username'];
+
+		$msg = "The photo with id ".$flagged." has been reported as inappropriate by ".$username.".";
+
+		//variables from page
+		$user = new UserFlag();
+		$user->set('picid', $flagged);
+		$user->set('username', $username);
+		$user->save();
+
+		//incremement flagged count
+		$picture = Picture::loadById($flagged);
+		$picture->incFlags();
+
+		// send email
+		//mail("EMAIL ADDRESS GOES HERE","Marmalappic Flagged Photo",$msg);
+
+		header('Location: '.BASE_URL.'/vote');
+	}
+
 	public function about(){
-		self::loggedInCheck();
 		include_once SYSTEM_PATH.'/view/about.tpl';
 	}
 
@@ -131,7 +182,7 @@ class SiteController {
 		self::loggedInCheck();
         $user = $_SESSION['username'];
         $today = date("Y-m-d", time());
-        $pic = "/public/media/garden.jpg";
+        $pic = "/public/media/upload.jpeg";
         $uploaded = false;
 
         //check if user already uploaded photo, if so, display it
@@ -139,7 +190,8 @@ class SiteController {
         if($result != null){
             $pic = $result->get('file');
             $uploaded = true;
-            $theme = DateTheme::getTheme($today)->get('theme');
+            $theme_row = DateTheme::getTheme($today);
+			if($theme_row != null) $theme = $theme_row->get('theme');
         }
 
 		include_once SYSTEM_PATH.'/view/upload.tpl';
@@ -148,6 +200,8 @@ class SiteController {
 	public function pastwinners(){
 		self::loggedInCheck();
 		$winners = Picture::getAllWinning();
+		array_shift ($winners); //don't show a winner for current date
+
 		include_once SYSTEM_PATH.'/view/pastwinners.tpl';
 	}
 
@@ -159,13 +213,14 @@ class SiteController {
 
 	public function account(){
 		self::loggedInCheck();
+
 		//get username
 		$user_row = User::loadByUsername($_SESSION['username']);
 		$username = $user_row->get('username');
 
 		//get all images uploaded
 		$pix = Picture::getAllByUser($username);
-		$overall_score = User::score($pix);
+		$overall_score = $user_row->get('score');
 		include_once SYSTEM_PATH.'/view/account.tpl';
 	}
 
@@ -222,6 +277,9 @@ class SiteController {
 		$row = UserVote::getRow($username, $picid);
 		$row->delete();
 
+		$picture = Picture::loadById($picid);
+		$picture->decVotes();
+
 		header('Location: '.BASE_URL.'/vote');
 	}
 
@@ -235,6 +293,9 @@ class SiteController {
 		$user->set('username', $username);
 		$user->save();
 
+		$picture = Picture::loadById($picid);
+		$picture->incVotes();
+
 		header('Location: '.BASE_URL.'/vote');
 	}
 
@@ -247,7 +308,22 @@ class SiteController {
 		header('Location: '.BASE_URL);
 	}
 
+	public function uploaddelete(){
+		$user = $_SESSION['username'];
+		$today = date("Y-m-d");
+		$current_pic = Picture::getPicByUserAndDate($user, $today);
+		if($current_pic != null){
+			$current_pic->delete();
+		}
+		$uploaded = false;
+		header('Location: '.BASE_URL.'/upload');
+	}
+
 	public function uploadsave(){
+		$user = $_SESSION['username'];
+		$today = date("Y-m-d");
+		$current_pic = Picture::getPicByUserAndDate($user, $today);
+
 		if(isset($_FILES['image'])){
 		      $errors= array();
 		      $file_name = $_FILES['image']['name'];
@@ -286,7 +362,12 @@ class SiteController {
 				 //Path on local system (CHANGE IF HOST CHANGES)
 				 $path = $marmalappic."\\public\\media\\user_uploads\\".$file_name;
 		         move_uploaded_file($file_tmp,$path);
-		          $_SESSION['success'] = "<b>Success!</b> Your picture has been uploaded.";
+		         $_SESSION['success'] = "<b>Success!</b> Your picture has been uploaded.";
+
+				  //delete existing upload if exists
+		  	      if($current_pic != null){
+		  			  $current_pic->delete();
+		  		  }
 
 				  //ADD TO DATABASE
 				  $picture = new Picture();
@@ -363,6 +444,12 @@ class SiteController {
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
+
+		if(preg_match('/[^A-Za-z0-9._]/', $username)){
+			$_SESSION['registerError'] = 'Sorry, that username contains invalid characters';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
 		// is username in use?
 		$user = User::loadByUsername($username);
 		if(!is_null($user)) {
@@ -386,6 +473,7 @@ class SiteController {
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
+
 		/*if (!preg_match('|@vt.edu$|', $email){
 			//email is not vt.edu
 			$_SESSION['registerError'] = 'Sorry, that email is not a vt.edu email';
@@ -393,6 +481,24 @@ class SiteController {
 			exit();
 
 		}*/
+
+		$user = User::loadByEmail($email);
+		if(!is_null($user)) {
+			// username already in use; send us back
+			$_SESSION['registerError'] = 'Sorry, that email is already in use. Please pick a different one.';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+		$allowed_domains = array("vt.edu");
+		$email_domain = array_pop(explode("@", $email));
+		if(!in_array($email_domain, $allowed_domains)) {
+    	// Not an authorised email 
+			$_SESSION['registerError'] = 'Sorry, that email is not a vt.edu email';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+
+>>>>>>> origin/master
 
 		// okay, let's register
 		$user = new User();
@@ -411,11 +517,9 @@ Was going to try and update a counter
 		$team->save();
 		*/
 
-		// log in this freshly created user
-		// $_SESSION['username'] = $uname;
-		$_SESSION['error'] = "You successfully registered as ".$username.".";
-
-		// redirect to home page
+		// log in this freshly created user and redirect to home page
+		$_SESSION['username'] = $username;
+		$_SESSION['success'] = "You successfully registered as ".$username.".";
 		header('Location: '.BASE_URL);
 		exit();
 	}

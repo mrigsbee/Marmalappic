@@ -9,7 +9,6 @@ class picture extends DbObject {
     protected $numvotes;
     protected $numflags;
     protected $date;
-    protected $isWinner;
     protected $file;
 
     //constructor
@@ -17,10 +16,9 @@ class picture extends DbObject {
         $defaultArgs = array(
             'id' => null,
             'username' => '',
-            'NumVotes' => 0,
-            'NumFlags' => 0,
-            'Date' => null,
-            'isWinner' => 0,
+            'numvotes' => 0,
+            'numflags' => 0,
+            'date' => null,
             'file' => ''
         );
 
@@ -28,10 +26,9 @@ class picture extends DbObject {
 
         $this->id = $args['id'];
         $this->username = $args['username'];
-        $this->numvotes = $args['NumVotes'];
-        $this->numflags = $args['NumFlags'];
-        $this->date = $args['Date'];
-        $this->isWinner = $args['isWinner'];
+        $this->numvotes = $args['numvotes'];
+        $this->numflags = $args['numflags'];
+        $this->date = $args['date'];
         $this->file = $args['file'];
     }
 
@@ -42,11 +39,10 @@ class picture extends DbObject {
         $db_properties = array(
             'id' => $this->picid,
             'username' => $this->username,
-            'NumVotes' => $this->numvotes,
-            'NumFlags' => $this->numflags,
-            'Date' => $this->date,
-            'isWinner' => $this->isWinner,
-            'file' => $this->file,
+            'numvotes' => $this->numvotes,
+            'numflags' => $this->numflags,
+            'date' => $this->date,
+            'file' => $this->file
         );
 
         $db->store($this, __CLASS__, self::DB_TABLE, $db_properties);
@@ -82,7 +78,7 @@ class picture extends DbObject {
 
     //get all the winning photos sorted by most recent to oldest date
     public static function getAllWinning() {
-        $query = sprintf(" SELECT * FROM %s WHERE isWinner = 1 ORDER BY date DESC",
+        $query = sprintf("SELECT id, max(numvotes) FROM %s GROUP BY date DESC",
             self::DB_TABLE
         );
 
@@ -99,13 +95,12 @@ class picture extends DbObject {
         }
     }
 
-    //get yesterday's winner
-    public static function getYesterdayWinner() {
-        $yesterday = date("Y-m-d", time() - 60*60*24);
 
-        $query = sprintf(" SELECT * FROM %s WHERE isWinner=1 AND Date='%s' ",
+    public static function getWinnerByDate($date) {
+
+        $query = sprintf(" SELECT * FROM %s WHERE date='%s' ORDER BY numvotes DESC limit 1 ",
             self::DB_TABLE,
-            $yesterday
+            $date
         );
 
         $db = Db::instance();
@@ -117,6 +112,13 @@ class picture extends DbObject {
             $obj = self::loadById($row['id']);
             return ($obj);
         }
+    }
+
+    //get yesterday's winner
+    public static function getYesterdayWinner() {
+        $yesterday = date("Y-m-d", time() - 60*60*24);
+
+        return self::getWinnerByDate($yesterday);
     }
 
     //get all pics by user
@@ -156,6 +158,75 @@ class picture extends DbObject {
             $obj = self::loadById($row['id']);
             return ($obj);
         }
+    }
+
+    public function delete()
+    {
+        $db = Db::instance();
+        $query = sprintf(" DELETE FROM %s  WHERE id = '%s'",
+            self::DB_TABLE,
+            $this->id
+        );
+        mysql_query($query);
+    }
+
+    public function incVotes(){
+       $db = Db::instance();
+       $query = sprintf(" UPDATE %s SET numvotes=numvotes+1 WHERE id = '%s'",
+           self::DB_TABLE,
+           $this->id
+       );
+       mysql_query($query);
+
+       //Update user's score
+       $pic_user = User::loadByUsername($this->username);
+       $userid = $pic_user->get('id');
+       $query2 = sprintf(" UPDATE %s SET score=score+1 WHERE id = '%s'",
+           "user",
+           $userid
+       );
+       mysql_query($query2);
+
+       //Update team's score
+       $teamname = $pic_user->get('teamname');
+       $query3 = sprintf(" UPDATE %s SET score=score+1 WHERE teamname = '%s'",
+           "team",
+           $teamname
+       );
+       mysql_query($query3);
+    }
+
+    public function decVotes(){
+       $db = Db::instance();
+       $query = sprintf(" UPDATE %s SET numvotes=numvotes-1 WHERE id = '%s'",
+           self::DB_TABLE,
+           $this->id
+       );
+       mysql_query($query);
+
+       $pic_user = User::loadByUsername($this->username);
+       $userid = $pic_user->get('id');
+       $query2 = sprintf(" UPDATE %s SET score=score-1 WHERE id = '%s'",
+           "user",
+           $userid
+       );
+       mysql_query($query2);
+
+       $teamname = $pic_user->get('teamname');
+       $query3 = sprintf(" UPDATE %s SET score=score-1 WHERE teamname = '%s'",
+           "team",
+           $teamname
+       );
+       mysql_query($query3);
+    }
+
+    public function incFlags(){
+       $db = Db::instance();
+       $query = sprintf(" UPDATE %s SET numflags=numflags+1 WHERE id = '%s'",
+           self::DB_TABLE,
+           $this->id
+       );
+       mysql_query($query);
     }
 }
 ?>

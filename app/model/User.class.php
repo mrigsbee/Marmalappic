@@ -78,8 +78,12 @@ class User extends DbObject {
         }
     }
 
+
      // load user by username
     public static function loadByEmail($email=null) {
+
+        public static function loadByEmail($email=null) {
+
         if($email === null)
             return null;
         $query = sprintf(" SELECT id FROM %s WHERE email = '%s' ",
@@ -104,5 +108,22 @@ class User extends DbObject {
 		    $score += $picture->get('numvotes');
 		}
         return $score;
+    public static function getTeamMembers($team) {
+        $query = sprintf(" SELECT * FROM %s WHERE teamname='%s'",
+            self::DB_TABLE,
+            $team
+        );
+
+        $db = Db::instance();
+        $result = $db->lookup($query);
+        if(!mysql_num_rows($result))
+            return null;
+        else {
+            $objects = array();
+            while($row = mysql_fetch_assoc($result)) {
+                $objects[] = self::loadById($row['id']);
+            }
+            return ($objects);
+        }
     }
 }

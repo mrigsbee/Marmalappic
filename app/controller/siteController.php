@@ -128,7 +128,14 @@ class SiteController {
 		$user_row = User::loadByUsername($_SESSION['username']);
 		$username = $user_row->get('username');
 
-		$teammates = User::getTeamMembers($user_row->get('teamname'));
+		//Get the user's teammates
+		$teammate_rows = User::getTeamMembers($user_row->get('teamname'));
+		$teammates = [];
+		if($teammate_rows != null){
+			foreach($teammate_rows as $team){
+				$teammates[] = $team->get('username');
+			}
+		}
 
 		$voted = UserVote::getAllByUser($username);
 		$votes = []; //array of picids that the user voted for

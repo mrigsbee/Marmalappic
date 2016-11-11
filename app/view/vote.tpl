@@ -92,7 +92,7 @@
                       $pic  = $entry->get('file');
                       $un  = $entry->get('username');
 
-                      //don't show pictures uploaded by the user and their teammates
+                       //don't show pictures uploaded by the user and their teammates
                       if(in_array($un, $teammates)){
                           continue;
                       }

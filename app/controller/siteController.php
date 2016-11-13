@@ -280,6 +280,7 @@ class SiteController {
 		$row = UserVote::getRow($username, $picid);
 		$row->delete();
 
+
 		$picture = Picture::loadById($picid);
 		$picture->decVotes();
 
@@ -316,6 +317,8 @@ class SiteController {
 		$today = date("Y-m-d");
 		$current_pic = Picture::getPicByUserAndDate($user, $today);
 		if($current_pic != null){
+			$numvotes = $current_pic->get('numvotes');
+			User::removePicFromScore($user, $numvotes);
 			$current_pic->delete();
 		}
 		$uploaded = false;
@@ -366,11 +369,6 @@ class SiteController {
 				 $path = $marmalappic."\\public\\media\\user_uploads\\".$file_name;
 		         move_uploaded_file($file_tmp,$path);
 		         $_SESSION['success'] = "<b>Success!</b> Your picture has been uploaded.";
-
-				  //delete existing upload if exists
-		  	      if($current_pic != null){
-		  			  $current_pic->delete();
-		  		  }
 
 				  //ADD TO DATABASE
 				  $picture = new Picture();

@@ -100,14 +100,16 @@ class User extends DbObject {
     }
 
     //gets the user's overall score
-    public static function score($pix) {
-        $score = 0;
-        foreach($pix as $picture){
-		    $score += $picture->get('numvotes');
-		}
-        return $score;
+    public static function removePicFromScore($username, $numvotes) {
+        $db = Db::instance();
+        $query = sprintf(" UPDATE %s SET score=score-%s WHERE username='%s'",
+            self::DB_TABLE,
+            $numvotes,
+            $username
+        );
+        mysql_query($query);
     }
-    
+
     public static function getTeamMembers($team) {
         $query = sprintf(" SELECT * FROM %s WHERE teamname='%s'",
             self::DB_TABLE,

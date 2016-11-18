@@ -68,6 +68,9 @@ class SiteController {
 			case 'postvote':
 				$this->postvote();
 				break;
+			case 'admindelete':
+				$this->admindelete();
+				break;
 		}
 	}
 
@@ -240,7 +243,7 @@ class SiteController {
 	}
 
 	public function forgotpassword(){
-		$_SESSION['info'] = "If you've forgotten your password, send an email to <b>marmalappic@gmail.com</b>.<br>We'll get back to you as soon as we can!";
+		$_SESSION['info'] = "If you've forgotten your password, send an email to <b>marmalappic@gmail.com</b> using the email associated with your Marmalappic account.<br>We'll get back to you as soon as we can!";
 		header('Location: '.BASE_URL.'/login');
 	}
 
@@ -526,5 +529,19 @@ Was going to try and update a counter
 		$_SESSION['success'] = "You successfully registered as ".$username.".";
 		header('Location: '.BASE_URL);
 		exit();
+	}
+
+	public function admindelete(){
+		$user = $_POST['username'];
+		$picid = $_POST['picid'];
+
+		$today = date("Y-m-d");
+		$current_pic = Picture::getPicByUserAndDate($user, $today);
+		if($current_pic != null){
+			$numvotes = $current_pic->get('numvotes');
+			User::removePicFromScore($user, $numvotes);
+			$current_pic->delete();
+		}
+		header('Location: '.BASE_URL.'/vote');
 	}
 }

@@ -70,7 +70,7 @@
         </div>
 
         <?php
-            if($hide){
+            if($hide && $_SESSION['username'] != 'admin'){
                 echo "<br><br><h3>You cannot vote until you upload a photo today!</h3>";
             }
             else {
@@ -127,6 +127,12 @@
                             } else {
                                 echo "<button id='flag_".$picid."' type='button' class='flagged btn btn-warning btn-sm'><i class='fa fa-flag' aria-hidden='true'></i> Flag as inappropriate</button>";
                                 echo "<button id='flagged_".$picid."' style='display:none' type='button' class='btn btn-warning btn-sm' disabled>You have flagged this image</button>";
+                            }
+
+                            //admin only
+                            if($_SESSION['username'] == 'admin'){
+                                echo"<br>";
+                                echo "<button id='delete_".$picid."_".$un."' type='button' class='delete btn btn-danger btn-sm'>Delete</button>";
                             }
 
                             echo "</div>";

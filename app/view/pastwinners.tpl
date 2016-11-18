@@ -77,11 +77,11 @@
                                   }
 
                               echo '<td class="col-md-4 project">';
-                                echo "<p class='date'>$date</p>";
                                 echo '<div class="mainPic">';
                                 echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="pic">';
                                 echo "</div>";
                                 echo '<div class="single_winner">';
+                                echo "<p class='date'>$date</p>";
                                 echo "<h5>Submitted by: $username</h5>";
                                 echo "<h6>Winner for: $theme</h6>";
                                 echo "</div>";

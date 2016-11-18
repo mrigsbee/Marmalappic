@@ -63,4 +63,23 @@ $(document).ready(function(){
         });
 
     });
+
+    ///
+    $('.delete').click(function(){
+
+        var id = $(this).attr('id');
+        var res = id.split("_");
+        var picid = res[1];
+        var user = res[2];
+
+        $.post(
+            '/Marmalappic/admin/delete/?',
+            {
+              "picid": picid,
+              "username": user
+             }, "json")
+            .done(function(data){
+                 location.reload();
+            });
+    });
 });

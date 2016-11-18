@@ -251,19 +251,19 @@ class SiteController {
 
 		$user_row = User::loadByEmail($email);
 		if($user_row == null){
-			$msg = "There is no account associated with this email.";
-		} else {
-			$username = $user_row->get('username');
-			$password = $user_row->get('password');
+			$_SESSION['error'] = "There is no account associated with the email: ".$email;
+			header('Location: '.BASE_URL.'/login');
 
-			$msg = "Your account information:\n  Username:".$username."\n  Password:".$password."\nThank you for using Marmalappic!";
+		 } else {
+			// $username = $user_row->get('username');
+			// $password = $user_row->get('password');
+			//
+			// $msg = "Your account information:\n  Username:".$username."\n  Password:".$password."\nThank you for using Marmalappic!";
+			// //send email
+			// mail($email,"Marmalappic Forgotten Password", $msg);
+			$_SESSION['info'] = "You will receive an email with your username and password from us shortly.";
+			header('Location: '.BASE_URL.'/login');
 		}
-
-		// send email
-		mail($email,"Marmalappic Forgotten Password", $msg);
-
-		$_SESSION['info'] = "You will receive an email with your username and password from us shortly.";
-		header('Location: '.BASE_URL.'/login');
 	}
 
 	public function postlogin(){

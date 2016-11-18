@@ -67,16 +67,20 @@
                         $_SESSION['error'] = '';
 					}
 				}
-                if(isset($_SESSION['info']))
-                {
-                    if($_SESSION['info'] != '')
-                    {
-                        echo '<div class="alert alert-info" role="alert">'.$_SESSION["info"].'</div>';
-                        $_SESSION['info'] = '';
-                    }
-                }
 			?>
 		</span>
+        <span id="info">
+           <?php
+               if(isset($_SESSION['info']))
+               {
+                   if($_SESSION['info'] != '')
+                   {
+                       echo '<div class="alert alert-info" role="alert">'.$_SESSION["info"].'</div>';
+                       $_SESSION['info'] = '';
+                   }
+               }
+           ?>
+       </span>
 
             <div class="panel-title">Sign In</div>
             <div style="float:right; font-size: 80%; position: relative; top:-10px">

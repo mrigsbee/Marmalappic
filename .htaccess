@@ -22,20 +22,5 @@ RewriteRule ^logout/?$ app/controller/siteController.php?action=logout [QSA,L]
 RewriteRule ^upload/save/?$ app/controller/siteController.php?action=uploadsave [QSA,L]
 RewriteRule ^upload/delete/?$ app/controller/siteController.php?action=uploaddelete [QSA,L]
 RewriteRule ^postvote/?$ app/controller/siteController.php?action=postvote [QSA,L]
-
-
-# Users
-RewriteRule ^profile/?$ app/controller/profileController.php?action=viewProfile&user_id=0 [QSA,L]
-ReWriteRule ^profile/graphic/?$ app/controller/profileController.php?action=graphic&user_id=0 [QSA,L]
-RewriteRule ^profile/(\d+)/?$ app/controller/profileController.php?action=viewProfile&user_id=$1 [QSA,L]
-RewriteRule ^profile/(\d+)/follow/?$ app/controller/profileController.php?action=follow [QSA,L]
-RewriteRule ^profile/(\d+)/unfollow/?$ app/controller/profileController.php?action=unfollow [QSA,L]
-RewriteRule ^profile/follow/?$ app/controller/profileController.php?action=follow [QSA,L]
-RewriteRule ^profile/unfollow/?$ app/controller/profileController.php?action=unfollow [QSA,L]
-RewriteRule ^profile/(\d+)/graphic/?$ app/controller/profileController.php?action=graphic&user_id=$1 [QSA,L]
-RewriteRule ^profile/json/(\d+)/?$ app/controller/siteController.php?action=profileJson&user_id=$1 [QSA,L]
-
-RewriteRule ^profile/graphic/getclothing/?$ app/controller/siteController.php?action=getclothing [QSA,L]
-RewriteRule ^profile/graphic/update/?$ app/controller/siteController.php?action=updateClothesSubmit [QSA,L]
-RewriteRule ^profile/graphic/delete/?$ app/controller/siteController.php?action=deleteClothesSubmit [QSA,L]
-RewriteRule ^profile/graphic/submit/?$ app/controller/siteController.php?action=addclothesSubmit [QSA,L]
+RewriteRule ^postpassword/?$ app/controller/siteController.php?action=postpassword [QSA,L]
+RewriteRule ^forgotpassword/?$ app/controller/siteController.php?action=forgotpassword [QSA,L]

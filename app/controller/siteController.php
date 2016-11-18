@@ -47,9 +47,6 @@ class SiteController {
 			case 'postlogin':
 				$this->postlogin();
 				break;
-			case 'postpassword':
-				$this->postpassword();
-				break;
 			case 'forgotpassword':
 				$this->forgotpassword();
 				break;
@@ -178,7 +175,7 @@ class SiteController {
 		$picture->incFlags();
 
 		// send email
-		mail("EMAIL ADDRESS GOES HERE","Marmalappic Flagged Photo",$msg);
+		mail("marmalappic@gmail.com","Marmalappic Flagged Photo",$msg);
 
 		header('Location: '.BASE_URL.'/vote');
 	}
@@ -243,27 +240,8 @@ class SiteController {
 	}
 
 	public function forgotpassword(){
-		include_once SYSTEM_PATH.'/view/forgotpassword.tpl';
-	}
-
-	public function postpassword(){
-		$email = $_POST['email'];
-
-		$user_row = User::loadByEmail($email);
-		if($user_row == null){
-			$_SESSION['error'] = "There is no account associated with the email: ".$email;
-			header('Location: '.BASE_URL.'/login');
-
-		 } else {
-			// $username = $user_row->get('username');
-			// $password = $user_row->get('password');
-			//
-			// $msg = "Your account information:\n  Username:".$username."\n  Password:".$password."\nThank you for using Marmalappic!";
-			// //send email
-			// mail($email,"Marmalappic Forgotten Password", $msg);
-			$_SESSION['info'] = "You will receive an email with your username and password from us shortly.";
-			header('Location: '.BASE_URL.'/login');
-		}
+		$_SESSION['info'] = "If you've forgotten your password, send an email to <b>marmalappic@gmail.com</b>.<br>We'll get back to you as soon as we can!";
+		header('Location: '.BASE_URL.'/login');
 	}
 
 	public function postlogin(){

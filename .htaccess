@@ -24,3 +24,5 @@ RewriteRule ^upload/delete/?$ app/controller/siteController.php?action=uploaddel
 RewriteRule ^postvote/?$ app/controller/siteController.php?action=postvote [QSA,L]
 RewriteRule ^forgotpassword/?$ app/controller/siteController.php?action=forgotpassword [QSA,L]
 RewriteRule ^admin/delete/?$ app/controller/siteController.php?action=admindelete [QSA,L]
+
+RewriteRule ^postpassword/?$ app/controller/siteController.php?action=postpassword [QSA,L]

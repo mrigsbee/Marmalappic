@@ -1,6 +1,7 @@
 <?php
 
 include_once '../global.php';
+include_once 'class.phpmailer.php';
 
 // get the identifier for the page we want to load
 $action = $_GET['action'];
@@ -195,9 +196,7 @@ class SiteController {
 		$flagged = $_POST['picid'];
 		$username = $_SESSION['username'];
 
-		$msg = "The photo with id ".$flagged." has been reported as inappropriate by ".$username.".";
-
-		//variables from page
+		//Show user that they have already flagged this photo
 		$user = new UserFlag();
 		$user->set('picid', $flagged);
 		$user->set('username', $username);
@@ -208,8 +207,12 @@ class SiteController {
 		$picture->incFlags();
 
 		// send email
-		mail("marmalappic@gmail.com","Marmalappic Flagged Photo",$msg);
-
+		$mail = new PHPMailer;
+		$mail->setFrom('marmalappic@gmail.com', 'Marmalappic');
+		$mail->addAddress('marmalappic@gmail.com');
+		$mail->Subject  = 'Flagged Photo Alert';
+		$mail->Body     = 'The photo with id '.$flagged.' has been reported as inappropriate by '.$username.'.';
+		$mail->send();
 		header('Location: '.BASE_URL.'/vote');
 	}
 

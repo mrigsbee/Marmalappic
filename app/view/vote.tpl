@@ -132,6 +132,7 @@
                             //admin only
                             if($_SESSION['username'] == 'admin'){
                                 echo"<br>";
+                                echo "id: ".$picid;
                                 echo "<button id='delete_".$picid."_".$un."' type='button' class='delete btn btn-danger btn-sm'>Delete</button>";
                             }
 

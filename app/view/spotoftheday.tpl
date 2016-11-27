@@ -92,10 +92,13 @@
       <hr>
       <br>
       <?php
-        if($theme == null){
+        if(date("Y-m-d") == "2016-12-04"){
+           echo "<h3>The competition is over! Thank you all for participating!</h3>";
+        }
+        else if($theme == null){
             echo "<h3>Looks like the competition hasn't started yet! Come back soon!</h3>";
         }
-        if($theme != null && $yesterday == null){
+        else if($theme != null && $yesterday == null){
             echo "<h3>Woo! The competition has begun! Come back to this page tomorrow to see who wins today's theme!</h3>";
         }
       ?>

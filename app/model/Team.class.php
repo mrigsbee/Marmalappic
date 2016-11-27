@@ -6,6 +6,7 @@ class team extends DbObject{
     //database fields
     protected $teamname;
     protected $score;
+    protected $membercount;
 
     //constructor
     public function __construct($args = array()){
@@ -45,6 +46,15 @@ class team extends DbObject{
 
         $db = Db::instance();
         $result = $db->lookup($query);
+    }
+
+     public static function incMemberCount($teamname){
+       $db = Db::instance();
+       $query = sprintf(" UPDATE %s SET membercount=membercount+1 WHERE teamname = '%s'",
+           self::DB_TABLE,
+           $teamname
+       );
+       mysql_query($query);
     }
 
     public static function loadByTeamname($teamname){

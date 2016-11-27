@@ -80,6 +80,18 @@
           </div>
 
 
+          <?php
+          $fullteams = 0;
+          foreach($teams as $team){
+              $count = $team->get('membercount');
+              if($count == 6){
+                $fullteams++;
+              }
+          }
+
+          //only show form if there are available teams to join
+          if ($fullteams < 5){
+          echo '
           <div class="form-group">
             <label for="username" class="col-md-3 control-label">Username</label>
             <div class="col-md-9">
@@ -98,44 +110,26 @@
               <input type="password" class="form-control" name="passwd" placeholder="Password">
             </div>
           </div>
-          <div class="funkyradio">
-           <?php
-          // $pic = "/public/media/jar.png";
-           $counter = 0;
-           $fullteams = 0;
-           foreach($teams as $team){
-            $count = count(User::getTeamMembers($team->get('teamname')));
-                 if($count < 6){
+          <div class="funkyradio">';
 
-            $name = $team->get('teamname');
-                   // $score = $team->get('score');
-           // echo ''
-            echo '<div class="funkyradio-success">';
-            echo "<input type='radio' name='nteams' id='$name' value='$name' />";
-            echo "<label for='$name'>$name</label>";
-            echo '</div>';
-          }
-          else{
-            $fullteams++;
-          }
-            $counter++;
+          foreach($teams as $team){
+              $count = $team->get('membercount');
 
-          }
-          if ($fullteams == 5){
-            echo '<h2>Sorry, all teams are currently full</h2>';
+              if($count < 6){
+
+                $name = $team->get('teamname');
+
+                echo '<div class="funkyradio-success">';
+                echo "<input type='radio' name='nteams' id='$name' value='$name' />";
+                echo "<label for='$name'>$name</label>";
+                echo '</div>';
+              }
           }
 
-          ?>
-        </div>
-         <!--  <div class="form-group">
-            <label for="teamname" class="col-md-3 control-label">Team Name</label>
-            <div class="col-md-9">
-              <input type="text" class="form-control" name="teamname" placeholder="Team Name">
-            </div>
-          </div> -->
+        echo '</div>
 
+          <!-- submit form -->
           <div class="form-group">
-            <!-- Button -->
             <div class="col-md-offset-3 col-md-9">
               <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i>Sign Up</button>
             </div>
@@ -143,9 +137,13 @@
 
           <div style="padding-top:20px"  class="form-group">
 
-          </div>
+          </div>';
 
-
+        //all the teams are full, show this message instead of form
+        } else {
+          echo '<br><br><h2>Sorry, all teams are currently full.</h2>';
+        }
+        ?>
 
         </form>
       </div>

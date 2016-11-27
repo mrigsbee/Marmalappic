@@ -496,8 +496,18 @@ class SiteController {
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
+		if(strlen($email) > 100){
+			$_SESSION['error'] = 'Sorry, that email is too long.';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
 		if(preg_match('/[^A-Za-z0-9]/', $username)){
 			$_SESSION['error'] = 'Sorry, that username contains invalid characters';
+			header('Location: '.BASE_URL.'/signup');
+			exit();
+		}
+		if(preg_match('/[^A-Za-z0-9@._]/', $email)){
+			$_SESSION['error'] = 'Sorry, that email contains invalid characters';
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
@@ -518,6 +528,8 @@ class SiteController {
 			exit();
 		}
 		$allowed_domains = array("vt.edu");
+		$array_pid = explode("@", $email);
+		$first = array_shift($array_pid);
 		$email_domain = array_pop(explode("@", $email));
 		if(!in_array($email_domain, $allowed_domains)) {
     	// Not an authorised email
@@ -525,22 +537,15 @@ class SiteController {
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
-
-		$user = User::loadByEmail($email);
-		if(!is_null($user)) {
-			// username already in use; send us back
-			$_SESSION['registerError'] = 'Sorry, that email is already in use. Please pick a different one.';
-			header('Location: '.BASE_URL.'/signup');
-			exit();
-		}
-		$allowed_domains = array("vt.edu");
-		$email_domain = array_pop(explode("@", $email));
-		if(!in_array($email_domain, $allowed_domains)) {
+		if(is_null($first) || preg_match('/[^A-Za-z0-9._]/', $first)) {
     	// Not an authorised email
-			$_SESSION['registerError'] = 'Sorry, that email is not a vt.edu email';
+			$_SESSION['error'] = 'Sorry, that email is not a valid email';
 			header('Location: '.BASE_URL.'/signup');
 			exit();
 		}
+
+		//add member to team
+		Team::incMemberCount($teamname);
 
 		// okay, let's register
 		$user = new User();
@@ -549,15 +554,6 @@ class SiteController {
 		$user->set('password', $passwd);
 		$user->set('email', $email);
 		$user->save(); // save to db
-/*
-Was going to try and update a counter
-		//$user_row = User::loadByUsername($username);
-		$team = Team::loadByTeamname($teamname);
-		$count = $team->get('membercount');
-		$team->set('score', $team->get('score'));
-		$team->set('membercount', $count++);
-		$team->save();
-		*/
 
 		// log in this freshly created user and redirect to home page
 		$_SESSION['username'] = $username;

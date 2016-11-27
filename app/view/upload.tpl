@@ -117,21 +117,26 @@
     ?>
 
     <!-- Upload form -->
-    <div id="uploadDiv" class="row">
-      <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <div id="picUpload" style="text-align:center; vertical-align:middle">
-              <span><b>Upload</b></span>
-              <br>
-              <form action="<?= BASE_URL ?>/upload/save" method="POST" enctype="multipart/form-data">
-                  <input id="uploadBtn" type="file" class="upload" name="image" />
-                  <input type="submit"/>
-              </form>
-            </div>
+    <?php
+    //only show upload form if today's a competition day
+    if(DateTheme::loadByDate(date("Y-m-d")) != null){
+      ?><div id="uploadDiv" class="row">
+          <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div id="picUpload" style="text-align:center; vertical-align:middle">
+                  <span><b>Upload</b></span>
+                  <br>
+                  <form action="<?= BASE_URL ?>/upload/save" method="POST" enctype="multipart/form-data">
+                      <input id="uploadBtn" type="file" class="upload" name="image" />
+                      <input type="submit"/>
+                  </form>
+                </div>
 
-      </div>
-      <div class="col-md-3"></div>
-  </div>
+          </div>
+          <div class="col-md-3"></div>
+      </div><?php
+  }
+  ?>
 
   <!-- Delete form -->
   <div id="deleteDiv" class="row">

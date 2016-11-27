@@ -92,7 +92,7 @@
       <hr>
       <br>
       <?php
-        if(date("Y-m-d") == "2016-11-27"){
+        if(date("Y-m-d") == "2016-12-04"){
           echo "<h3>The competition is over! Thank you all for participating!</h3>";
           $winner = Team::getWinner();
           $winner_name = $winner->get('teamname');

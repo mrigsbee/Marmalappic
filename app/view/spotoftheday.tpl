@@ -92,8 +92,11 @@
       <hr>
       <br>
       <?php
-        if(date("Y-m-d") == "2016-12-04"){
-           echo "<h3>The competition is over! Thank you all for participating!</h3>";
+        if(date("Y-m-d") == "2016-11-27"){
+          echo "<h3>The competition is over! Thank you all for participating!</h3>";
+          $winner = Team::getWinner();
+          $winner_name = $winner->get('teamname');
+          echo "<h3>Congrats to Team ".$winner_name." for winning the comptition!</h3>";
         }
         else if($theme == null){
             echo "<h3>Looks like the competition hasn't started yet! Come back soon!</h3>";

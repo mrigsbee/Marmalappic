@@ -61,11 +61,16 @@
           <tr>
 
               <?php
+                $place = array("1st", "2nd", "3rd", "4th", "5th");
+
                 $pic = "/public/media/jar.png";
                 $counter = 0;
                 if($teams != null){
                     foreach($teams as $team){
-                      if($counter == 3) break;
+                      if($counter % 3 == 0){
+                              if($counter != 0) echo "</tr>";
+                              echo "<tr>";
+                          }
 
                         $name = $team->get('teamname');
                         $score = $team->get('score');
@@ -75,6 +80,11 @@
                             echo '<img src="'.BASE_URL.$pic.'" alt="icon" class="jar">';
                           echo '</div>';
                           echo '<div class="single_winner">';
+                            $placement = $place[$counter];
+                            if($counter == 0){
+                              echo '<i class="fa fa-trophy" aria-hidden="true"></i> ';
+                            }
+                            echo "<b>".$placement." place</b>";
                             echo "<h5>Team $name</h5>";
                             echo "<h6>$score Jars of Marmalade</h6>";
                           echo '</div>';
@@ -88,10 +98,11 @@
         </table>
       </div>
     </div>
-    <p>*The jars would be filled with different amounts of marmalade, not just empty</p>
 
   </div>
 
+
+  <script src="https://use.fontawesome.com/80358a383e.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
   <script src="<?= BASE_URL ?>/public/js/bootstrap.min.js"></script>

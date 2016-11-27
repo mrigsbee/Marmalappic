@@ -81,6 +81,25 @@ class team extends DbObject{
             return ($objects);
         }
     }
+
+    //get winner!
+    public static function getWinner() {
+        $query = sprintf(" SELECT * FROM %s ORDER BY score DESC LIMIT 1",
+            self::DB_TABLE
+            );
+
+        $db = Db::instance();
+        $result = $db->lookup($query);
+        if(!mysql_num_rows($result))
+            return null;
+        else {
+            $row = mysql_fetch_assoc($result);
+            $obj = self::loadByTeamname($row['teamname']);
+            return ($obj);
+        }
+    }
+
+
     public static function getAllTeams($limit=null) {
      $query = sprintf(" SELECT * FROM %s ORDER BY teamname DESC",
         self::DB_TABLE

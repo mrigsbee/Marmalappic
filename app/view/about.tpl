@@ -57,24 +57,30 @@
       <hr>
       <br>
       <div id ="summary">
-          <h2> The Competition </h2>
+          <h4 style="color:blue">The competition will be held Tuesday, November 29, 2016 to Saturday, December 3, 2016.</h4>
+          <br><br>
+
+          <h2> What is Marmalappic? </h2>
           <p>
-            Hello, and welcome to Marmalappic! In a fun attempt to help students get more
-            acquainted with both their campus and the greater Blacksburg area, this game encourages
-            students to participate in this competition to identify, go to, and take a selfie at
-            randomly identified locations around here. Then upload your photo to our website, and let
-            the voting begin! Depending on the number of points, winners will be chosen and announced.
-            Work hard to fill up your Marmalde Jar the fastest, and win discounts to restaurants on Main Street.
-            <br>
+            In a fun attempt to help students get more acquainted with both their campus and the greater
+            Blacksburg area, this game encourages students to participate in this competition to think
+            creatively and have fun with their fellow Hokies.
             <br>
             A win-win, our mission is to help keep the community strong!
           </p>
           <br>
-          <h2> The Team </h2>
+          <h2> How do I participate? </h2>
           <p>
-            In order to encourage interactivity and prompt faster winners, you can choose other members
-            group yourselves in teams and race to win!
-
+            Make your account on our sign up page. Join a team with old friends or make some new ones!<br>
+            Each day during the competition, there will be a theme posted on the front page.<br>
+            Take a photo that you think best captures that theme and upload it to our website.<br>
+            Once you've uploaded your photo, check out photos your fellow Hokies have submitted and vote for your favorites.<br>
+            Check back the next day to see if your photo won!<br>
+          </p>
+          <br>
+          <h2> What do I get for participating? </h2>
+          <p>
+              The team with the most points by <b>Sunday, December 4,2016</b> will win a <b style="color:blue">CASH PRIZE!!</b><br>
           </p>
       </div>
     </div>

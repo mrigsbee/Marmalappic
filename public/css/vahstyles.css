@@ -66,15 +66,15 @@ ul#nav li{
 
 }
 .mainPic{
-	max-height: 250px;
+	height: 250px;
 	max-width: 300px;
 	vertical-align: middle;
 	display: inline-block;
 }
 .pic {
-	width:250px;
-	height:250px;
-	background-size:cover;
+	max-width:300px;
+	max-height:250px;
+	/*background-size:cover;*/
 	vertical-align: middle;
 	padding-top: 40px;
 }
@@ -118,8 +118,8 @@ ul#nav li{
 	max-height: 250px;
 }
 .myPic{
-	height: 400px;
-	width: 600px;
+	max-height: 400px;
+	max-width: 400px;
 	vertical-align: middle;
 	margin: 0 auto;
 }

@@ -414,6 +414,7 @@ class SiteController {
 				 //Path on local system (CHANGE IF HOST CHANGES)
 				 $path = $marmalappic."\\public\\media\\user_uploads\\".$file_name;
 		         move_uploaded_file($file_tmp,$path);
+				 self::image_fix_orientation($path);
 		         $_SESSION['success'] = "<b>Success!</b> Your picture has been uploaded.";
 
 				  //ADD TO DATABASE
@@ -434,6 +435,34 @@ class SiteController {
 				 header('Location: '.BASE_URL.'/upload');
 		      }
 		   }
+	}
+
+	function image_fix_orientation($path)
+	{
+	    $image = imagecreatefromjpeg($path);
+	    $exif = exif_read_data($path);
+
+	    if (empty($exif['Orientation']))
+	    {
+	        return false;
+	    }
+
+	    switch ($exif['Orientation'])
+	    {
+	        case 3:
+	            $image = imagerotate($image, 180, 0);
+	            break;
+	        case 6:
+	            $image = imagerotate($image, - 90, 0);
+	            break;
+	        case 8:
+	            $image = imagerotate($image, 90, 0);
+	            break;
+	    }
+
+	    imagejpeg($image, $path);
+
+	    return true;
 	}
 
 	private function getPictureUploadError($code)

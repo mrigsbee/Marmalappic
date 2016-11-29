@@ -116,6 +116,7 @@
       }
     ?>
 
+    <br>
     <!-- Upload form -->
     <?php
     //only show upload form if today's a competition day

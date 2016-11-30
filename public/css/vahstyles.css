@@ -74,7 +74,7 @@ ul#nav li{
 .pic {
 	max-width:300px;
 	max-height:250px;
-	/*background-size:cover;*/
+	background-size:cover;
 	vertical-align: middle;
 	padding-top: 40px;
 }

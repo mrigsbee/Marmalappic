@@ -95,6 +95,24 @@ class picture extends DbObject {
         }
     }
 
+    public static function getAllWinningExceptToday(){
+      $winners = array();
+
+      $all_dates = DateTheme::getAll();
+
+        if($all_dates != null){
+            foreach($all_dates as $date){
+              $day = $date->get('date');
+              if($day >= date("Y-m-d")) continue; //don't show today or futuer day's winner
+
+              $pic = Picture::getWinnerByDate($day);
+               if($pic != null) array_push($winners, $pic);
+            }
+        }
+
+        return ($winners);
+    }
+
 
     public static function getWinnerByDate($date) {
 

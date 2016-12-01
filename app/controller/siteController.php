@@ -400,12 +400,6 @@ class SiteController {
 				 header('Location: '.BASE_URL.'/upload');
 		      }
 
-			  //check that the image isn't too large
-		      else if($file_size > 2097152){
-				 $_SESSION['error'] = "<b>Uh oh!</b> File size must be less than 2 MB";
-				 header('Location: '.BASE_URL.'/upload');
-		      }
-
 			  //attempt to store the image in the file system
 		      else if (empty($errors) == true){
 				 $marmalappic = realpath(dirname(dirname(getcwd())));
@@ -415,7 +409,7 @@ class SiteController {
 
 				 //check if file name already exists
 				 if(file_exists($path)){
-					 $_SESSION['error'] = "File already exists. Please rename and resubmit.";
+					 $_SESSION['error'] = "File with that name already exists. Please rename your file and resubmit.";
 					 header('Location: '.BASE_URL.'/upload');
 					 exit();
 				 }
@@ -476,12 +470,12 @@ class SiteController {
     {
         switch ($code) {
             case UPLOAD_ERR_INI_SIZE:
-                //$message = "The uploaded file exceeds the upload_max_filesize directive in php.ini";
-				$message = "The uploaded file exceeds the maximum file size.";
+                //The uploaded file exceeds the upload_max_filesize directive in php.ini (default 2MB)
+				$message = "The uploaded file exceeds the maximum file size of 2MB.";
                 break;
             case UPLOAD_ERR_FORM_SIZE:
-                // $message = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form";
-				$message = "The uploaded file exceeds the maximum file size.";
+                //The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form (default 2MB)
+				$message = "The uploaded file exceeds the maximum file size of 2MB.";
                 break;
             case UPLOAD_ERR_PARTIAL:
                 $message = "The uploaded file was only partially uploaded.";

@@ -412,6 +412,14 @@ class SiteController {
 
 				 //Path on local system (CHANGE IF HOST CHANGES)
 				 $path = $marmalappic."\\public\\media\\user_uploads\\".$file_name;
+
+				 //check if file name already exists
+				 if(file_exists($path)){
+					 $_SESSION['error'] = "File already exists. Please rename and resubmit.";
+					 header('Location: '.BASE_URL.'/upload');
+					 exit();
+				 }
+
 		         move_uploaded_file($file_tmp,$path);
 				 self::image_fix_orientation($path);
 		         $_SESSION['success'] = "<b>Success!</b> Your picture has been uploaded.";

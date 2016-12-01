@@ -82,11 +82,6 @@
                 echo $theme;
             } ?>
       </h4>
-      <div class="buttons col-md-3">
-        <button type="button" class="btn btn-success picUpload">
-          <i class="fa fa-camera" aria-hidden="true"></i> Take A Picture
-        </button>
-      </div>
 	  <br>
       <br>
       <hr>

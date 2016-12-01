@@ -92,9 +92,9 @@
                       $pic  = $entry->get('file');
                       $un  = $entry->get('username');
 
-                       //don't show pictures uploaded by the user and their teammates
-                      if(in_array($un, $teammates)){
-                          continue;
+                      //don't show current user's pix so they can't vote for themselves
+                      if($un == $_SESSION['username']){
+                      	  continue;
                       }
 
                       $picid = $entry->get('id');
